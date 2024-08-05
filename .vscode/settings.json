@@ -1,0 +1,6 @@
+{
+   "i18n-ally.localesPaths": [
+      "assets/locales",
+      "assets/emails/locales"
+   ]
+}

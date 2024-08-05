@@ -1,0 +1,358 @@
+{
+  "query": {
+    "user": {
+      "errors": {
+        "notFound": "User not found."
+      }
+    },
+    "role": {
+      "errors": {
+        "notFound": "Role not found."
+      }
+    },
+    "permission": {
+      "errors": {
+        "notFound": "Permission not found."
+      }
+    },
+    "session": {
+      "errors": {
+        "notFound": "Session not found."
+      }
+    },
+    "userAvatar": {
+      "errors": {
+        "notFound": "Avatar not found."
+      }
+    },
+    "userRole": {
+      "errors": {
+        "notFound": "User role not found."
+      }
+    },
+    "userPermission": {
+      "errors": {
+        "notFound": "User permission not found."
+      }
+    },
+    "rolePermission": {
+      "errors": {
+        "notFound": "Role permission not found."
+      }
+    },
+    "file": {
+      "errors": {
+        "notFound": "File not found."
+      }
+    },
+    "application": {
+      "errors": {
+        "notFound": "Application not found."
+      }
+    }
+  },
+  "mutation": {
+    "joinWaitlist": {
+      "message": "Thank you for joining the waitlist."
+    },
+    "leaveWaitlist": {
+      "message": "You've left the waitlist."
+    },
+    "login": {
+      "welcome": "Welcome, {{name}}!",
+      "welcomeBack": "Welcome back, {{name}}!",
+      "errors": {
+        "unauthorized": "You're not allowed.",
+        "unauthorized_Suspended": "Your account has been suspended.",
+        "unauthorized_LockedOut": "Reset your password to continue.",
+        "unauthorized_Deprovisioned": "Your account has been deactivated.",
+        "unauthorized_Recovery": "Reset your password to continue.",
+        "unauthorized_PasswordExpired": "Reset your password to continue."
+      }
+    },
+    "loginWithOTP": {
+      "errors": {
+        "message": "Your OTP is invalid."
+      }
+    },
+    "loginWithEmail": {
+      "errors": {
+        "message": "Incorrect email or password."
+      }
+    },
+    "requestUserEmailVerification": {
+      "message": "If you've got an account, watch out for an email from us with further instructions!"
+    },
+    "verifyUserEmail": {
+      "message": "You've verified your email.",
+      "errors": {
+        "message": "Your email verification token is invalid."
+      }
+    },
+    "requestEmailLoginOTP": {
+      "message": "If you possess an account, we'll dispatch an OTP code to you."
+    },
+    "logoutFromAllDevices": {
+      "message": "You've logged out from all devices."
+    },
+    "registerWithEmail": {
+      "errors": {
+        "message": "Failed to create account.",
+        "fields": {
+          "email": {
+            "alreadyExist": "Your email has already been registered.",
+            "invalidEmail": "Invalid email address.",
+            "required": "Email is required."
+          },
+          "password": {
+            "min": "Password must be at least {{count}} characters.",
+            "max": "Password must not be longer than {{count}} charaters.",
+            "required": "Password is required ({{min}} - {{max}} characters."
+          },
+          "firstName": {
+            "required": "First name is required."
+          },
+          "name": {
+            "min": "Name must be at least {{count}} characters.",
+            "max": "Name must not be longer than {{count}} characters."
+          }
+        }
+      }
+    },
+    "updateCurrentUserBasicInfo": {
+      "message": "User info updated.",
+      "errors": {
+        "message": "Failed to update user info."
+      }
+    },
+    "requestResetUserPassword": {
+      "message": "If you already have an account, keep an eye on your inbox for an email with detailed instructions."
+    },
+    "resetUserPassword": {
+      "message": "Password successfully updated. Please log in with your new password to continue.",
+      "errors": {
+        "message": "Your password reset token is invalid.",
+        "validation": {
+          "message": "Failed to update password."
+        }
+      }
+    },
+    "removeCurrentUserPicture": {
+      "message": "You've removed your picture."
+    },
+    "requestDeleteAccount": {
+      "message": "We've sent you an email with further instructions.",
+      "message_Provisioned": "You've deleted your account."
+    },
+    "deleteUserAccount": {
+      "message": "You've deleted your account.",
+      "errors": {
+        "message": "Your account deletion token is invalid."
+      }
+    },
+    "requestUserPhoneNumberVerification": {
+      "message": "Your verification code has been sent to {{phoneNumber}}."
+    },
+    "verifyUserPhoneNumber": {
+      "message": "You've verified {{phoneNumber}}.",
+      "errors": {
+        "message": "Your verification code is invalid."
+      }
+    },
+    "updateCurrentUserPhoneNumber": {
+      "message": "You've updated your phone number."
+    },
+    "requestSMSLoginOTP": {
+      "message": "We've sent an OTP to {{phoneNumber}}."
+    },
+    "createUsers": {
+      "errors": {
+        "message": "Failed to create users.",
+        "message_P2002": "User already exists."
+      }
+    },
+    "updateUsers": {
+      "errors": {
+        "message": "Failed to update users.",
+        "message_P2002": "User already exists."
+      }
+    },
+    "deleteUsers": {
+      "errors": {
+        "message": "Failed to delete users.",
+        "message_P2025": "User does not exists."
+      }
+    },
+    "sendVerificationEmailToUsers": {
+      "message": "Verification email sent.",
+      "errors": {
+        "message": "Failed to send verification email."
+      }
+    },
+    "sendPhoneNumberVerificationSMSToUsers": {
+      "message": "Verification code sent.",
+      "errors": {
+        "message": "Failed to send verification SMS."
+      }
+    },
+    "sendPasswordResetEmailToUsers": {
+      "message": "Password reset email sent.",
+      "errors": {
+        "message": "Failed to send password reset email."
+      }
+    },
+    "sendEmailLoginOTPToUsers": {
+      "message": "Email login OTP sent.",
+      "errors": {
+        "message": "Failed to send email OTP."
+      }
+    },
+    "sendSMSLoginOTPToUsers": {
+      "message": "SMS login OTP sent.",
+      "errors": {
+        "message": "Failed to send SMS OTP."
+      }
+    },
+    "unblockUserIPs": {
+      "message": "You've unblocked ips.",
+      "errors": {
+        "message": "Failed to unblock ips."
+      }
+    },
+    "createApplication": {
+      "errors": {
+        "message": "Failed to create application.",
+        "message_P2002": "Application already exists.",
+        "fields": {
+          "name": {
+            "max": "Name must not be longer than {{count}} characters."
+          },
+          "description": {
+            "max": "Description must not be longer than {{count}} characters."
+          }
+        }
+      }
+    },
+    "updateApplication": {
+      "errors": {
+        "message": "Failed to update application.",
+        "message_P2002": "Application already exists."
+      }
+    },
+    "deleteApplication": {
+      "errors": {
+        "message": "Failed to delete application.",
+        "message_P2025": "Application does not exists."
+      }
+    },
+    "createPermissions": {
+      "errors": {
+        "message": "Failed to create permissions.",
+        "message_P2002": "Permission with {{meta.target}} already exists.",
+        "fields": {
+          "name": {
+            "max": "Name must not be longer than {{count}} characters."
+          },
+          "description": {
+            "max": "Description must not be longer than {{count}} characters."
+          }
+        }
+      }
+    },
+    "updatePermissions": {
+      "errors": {
+        "message": "Failed to update permissions.",
+        "message_P2002": "Permission with {{meta.target}} already exists."
+      }
+    },
+    "deletePermissions": {
+      "errors": {
+        "message": "Failed to delete permissions.",
+        "message_P2025": "Permission does not exists."
+      }
+    },
+    "deleteFiles": {
+      "errors": {
+        "message": "Failed to delete files.",
+        "message_P2025": "File does not exists."
+      }
+    },
+    "createRoles": {
+      "errors": {
+        "message": "Failed to create roles.",
+        "message_P2002": "Role already exists.",
+        "fields": {
+          "name": {
+            "max": "Name must not be longer than {{count}} characters."
+          },
+          "description": {
+            "max": "Description must not be longer than {{count}} characters."
+          }
+        }
+      }
+    },
+    "updateRoles": {
+      "errors": {
+        "message": "Failed to update roles.",
+        "message_P2002": "Role already exists."
+      }
+    },
+    "deleteRoles": {
+      "errors": {
+        "message": "Failed to delete roles.",
+        "message_P2025": "Role does not exists."
+      }
+    },
+    "createRolePermissions": {
+      "errors": {
+        "message": "Failed to add role permissions.",
+        "message_P2002": "Role permission already added."
+      }
+    },
+    "deleteRolePermissions": {
+      "errors": {
+        "message": "Failed to remove role permissions.",
+        "message_P2025": "Role permission does not exists."
+      }
+    },
+    "deleteUserAvatars": {
+      "errors": {
+        "message": "Failed to delete user avatars.",
+        "message_P2025": "User avatar does not exists."
+      }
+    },
+    "createUserPermissions": {
+      "errors": {
+        "message": "Failed to add user permissions.",
+        "message_P2002": "User permission already added."
+      }
+    },
+    "deleteUserPermissions": {
+      "errors": {
+        "message": "Failed to remove user permissions.",
+        "message_P2025": "User permission does not exists."
+      }
+    },
+    "createUserRoles": {
+      "errors": {
+        "message": "Failed to add user roles.",
+        "message_P2002": "User role already added."
+      }
+    },
+    "deleteUserRoles": {
+      "errors": {
+        "message": "Failed to remove user roles.",
+        "message_P2025": "User role does not exists."
+      }
+    },
+    "deleteSessions": {
+      "errors": {
+        "message": "Failed to delete user sessions.",
+        "message_P2025": "User session does not exists."
+      }
+    },
+    "rotateKeys": {
+      "message": "You've rotated security keys."
+    }
+  }
+}

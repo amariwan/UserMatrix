@@ -1,0 +1,52 @@
+type Session
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: roles, roles: ["Admin"] }
+      { allow: permissions, permissions: ["ReadSession"] }
+    ]
+  ) {
+  id: ID!
+  jti: ID!
+  clientId: ID!
+  clientIp: IP!
+  createdAt: DateTime!
+  userAgent: String
+  user: User!
+}
+
+type Query {
+  session(id: ID!): Session!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadSession"] }
+      ]
+    )
+
+  sessions(limit: Int): SessionsList!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadSession"] }
+      ]
+    )
+}
+
+type Mutation {
+  deleteSessions(inputs: [DeleteSessionInput!]!): [Session]!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["DeleteSession"] }
+      ]
+    )
+}
+
+type SessionsList {
+  items: [Session]!
+}
+
+input DeleteSessionInput {
+  id: ID!
+}

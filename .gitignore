@@ -1,0 +1,16 @@
+# Ignore artifacts:
+node_modules
+build
+coverage
+
+
+# Creds
+google_client_secret.json
+certs
+
+# Secrets
+.env.production
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

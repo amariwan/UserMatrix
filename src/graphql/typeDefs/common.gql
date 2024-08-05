@@ -1,0 +1,48 @@
+enum ImageResizeFit {
+  cover
+  contain
+  fill
+  inside
+  outside
+}
+
+input ImageResizeBackgroundInput {
+  r: Int!
+  g: Int!
+  b: Int!
+  alpha: Int!
+}
+
+input ImageResize {
+  width: PositiveInt!
+  height: PositiveInt!
+  fit: ImageResizeFit
+  background: ImageResizeBackgroundInput
+}
+
+input ImageEditInput {
+  resize: ImageResize
+  flatten: Boolean
+  grayscale: Boolean
+  flip: Boolean
+  flop: Boolean
+  negate: Boolean
+  normalise: Boolean
+}
+
+type Picture {
+  id: ID!
+  url(edits: ImageEditInput): URL!
+  thumbnail(edits: ImageEditInput): URL!
+  downloadUrl: URL!
+}
+
+interface Response {
+  success: Boolean
+  message: String
+}
+
+type MutationResponse implements Response {
+  success: Boolean
+  message: String
+}

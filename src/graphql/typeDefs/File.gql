@@ -1,0 +1,53 @@
+type File
+  @auth(
+    rules: [
+      { allow: roles, roles: ["Admin"] }
+      { allow: permissions, permissions: ["ReadFile"] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  mimetype: String!
+  size: Int!
+  encoding: String
+  downloadUrl: URL
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+type Query {
+  file(key: ID!, bucket: ID!): File!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadFile"] }
+      ]
+    )
+
+  files(limit: Int): FilesList!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadFile"] }
+      ]
+    )
+}
+
+type Mutation {
+  deleteFiles(inputs: [DeleteFileInput!]!): File!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["DeleteFile"] }
+      ]
+    )
+}
+
+type FilesList {
+  items: [File]!
+}
+
+input DeleteFileInput {
+  key: ID!
+  bucket: ID!
+}

@@ -1,0 +1,440 @@
+enum AccountStatus {
+  """
+  Accounts have a staged status when they are first created, before the activation flow is initiated, or if there is a pending admin action.
+  """
+  Staged
+
+  """
+  Accounts have a provisioned status when the user has not provided verification by clicking through the activation email.
+  """
+  Provisioned
+
+  """
+  Accounts have an active status when:
+  - An admin adds a user and sets the user password without requiring email verification.
+  - A user self-registers and verified their email.
+  - An admin explicitly activate user accounts.
+  """
+  Active
+
+  """
+  Accounts have a recovery status when a user requests a password reset or an admin initiates one on their behalf.
+  """
+  Recovery
+
+  """
+  Accounts have a password expired status when the password has expired and the account requires an update to the password before a user is granted access to applications.
+  """
+  PasswordExpired
+
+  """
+  Accounts have a locked out status when the user exceeds the number of login attempts.
+  """
+  LockedOut
+
+  """
+  Accounts have a suspended status when an admin explicitly suspends them. The user cannot access applications.
+  """
+  Suspended
+
+  """
+  Accounts have a deprovisioned status when an admin explicitly deactivates or deprovisions them. All application assignments are removed and the password is permanently deleted.
+  """
+  Deprovisioned
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String
+  surname: String
+  email: EmailAddress!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserEmail"] }
+      ]
+    )
+  language: Locale!
+  phoneNumber: PhoneNumber
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserPhoneNumber"] }
+      ]
+    )
+  isEmailVerified: Boolean!
+  isPhoneNumberVerified: Boolean!
+  isMe: Boolean!
+  socialPictureUrl: URL
+  avatar: UserAvatar
+  createdAt: DateTime!
+  updatedAt: DateTime
+  passwordUpdatedAt: DateTime
+  roles: [String]!
+  status: AccountStatus
+  sessions: [Session]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadSession"] }
+      ]
+    )
+
+  rolesCreatedByUser: [Role]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadRole"] }
+      ]
+    )
+
+  permissionsCreatedByUser: [Permission]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadPermission"] }
+      ]
+    )
+
+  rolesAssignedToUser: [UserRole]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserRole"] }
+      ]
+    )
+
+  rolesAssignedByUser: [UserRole]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserRole"] }
+      ]
+    )
+
+  permissionsAssignedToUser: [UserPermission]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserPermission"] }
+      ]
+    )
+
+  permissionsAssignedByUser: [UserPermission]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUserPermission"] }
+      ]
+    )
+
+  rolePermissionsAssignedByUser: [RolePermission]!
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "id" }
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadRolePermission"] }
+      ]
+    )
+}
+
+type Query {
+  me: User! @auth
+
+  user(id: ID!): User!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUser"] }
+      ]
+    )
+
+  users(limit: Int): UsersList!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["ReadUser"] }
+      ]
+    )
+}
+
+type Mutation {
+  joinWaitlist(email: EmailAddress!): MutationResponse!
+  leaveWaitlist(token: NonEmptyString!): MutationResponse!
+
+  loginWithIdentityProvider(input: IdentityProviderLoginInput!): AuthResponse!
+
+  registerWithEmail(input: RegisterWithEmailInput!): AuthResponse!
+  loginWithEmail(input: EmailLoginInput!): AuthResponse!
+
+  requestEmailLoginOTP(email: EmailAddress!): MutationResponse!
+  loginWithEmailOTP(input: EmailOTPLoginInput!): AuthResponse!
+
+  requestSMSLoginOTP(phoneNumber: PhoneNumber!): MutationResponse!
+  loginWithSMSOTP(input: SMSOTPLoginInput!): AuthResponse!
+
+  requestUserPhoneNumberVerification(
+    phoneNumber: PhoneNumber!
+  ): MutationResponse!
+  verifyUserPhoneNumber(input: VerifyPhoneNumberInput!): MutationResponse!
+
+  requestUserEmailVerification(email: EmailAddress!): MutationResponse!
+  verifyUserEmail(input: VerifyEmailInput!): MutationResponse!
+
+  requestResetUserPassword(email: EmailAddress!): MutationResponse!
+  resetUserPassword(input: ResetPasswordInput!): MutationResponse!
+
+  removeCurrentUserPicture: UserResponse!
+    @auth(rules: [{ allow: status, status: [Provisioned, Active] }])
+  updateCurrentUserBasicInfo(input: UpdateBasicInfoInput!): UserResponse!
+    @auth(rules: [{ allow: status, status: [Provisioned, Active] }])
+  updateCurrentUserPhoneNumber(input: UpdatePhoneNumberInput!): UserResponse!
+    @auth(rules: [{ allow: status, status: [Provisioned, Active] }])
+
+  logoutFromAllDevices: MutationResponse! @auth
+  requestDeleteCurrentUserAccount: MutationResponse!
+    @auth(rules: [{ allow: status, status: [Provisioned, Active] }])
+  deleteUserAccount(input: DeleteAccountInput!): MutationResponse!
+
+  rotateKeys: MutationResponse!
+    @auth(rules: [{ allow: roles, roles: ["Admin"] }])
+
+  createUsers(inputs: [CreateUserInput!]!): [User]!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["CreateUser"] }
+      ]
+    )
+
+  updateUsers(inputs: [UpdateUserInput!]!): [User]!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["UpdateUser"] }
+      ]
+    )
+
+  deleteUsers(inputs: [DeleteUserInput!]!): [User]!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["DeleteUser"] }
+      ]
+    )
+
+  sendVerificationEmailToUsers(
+    inputs: [SendVerificationEmailInput!]!
+  ): MutationResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["SendVerificationEmail"] }
+      ]
+    )
+
+  sendPhoneNumberVerificationSMSToUsers(
+    inputs: [SendPhoneNumberVerificationSMSInput!]!
+  ): MutationResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["SendPhoneNumberVerificationSMS"] }
+      ]
+    )
+
+  sendPasswordResetEmailToUsers(
+    inputs: [SendPasswordResetEmailInput!]!
+  ): MutationResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["SendPasswordResetEmail"] }
+      ]
+    )
+
+  sendEmailLoginOTPToUsers(
+    inputs: [SendEmailLoginOTPInput!]!
+  ): MutationResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["SendEmailLoginOTP"] }
+      ]
+    )
+
+  sendSMSLoginOTPToUsers(inputs: [SendSMSLoginOTPInput!]!): MutationResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["SendSMSLoginOTP"] }
+      ]
+    )
+
+  unblockUserIPs(input: UnblockUserIPsInput!): UserResponse!
+    @auth(
+      rules: [
+        { allow: roles, roles: ["Admin"] }
+        { allow: permissions, permissions: ["UnblockUserLoginIP"] }
+      ]
+    )
+}
+
+type Subscription {
+  userBasicInfoUpdated(id: ID!): User
+  ping: String
+}
+
+type UsersList {
+  items: [User]!
+}
+
+type AuthResponse implements Response {
+  success: Boolean
+  message: String
+  """
+  Access tokens contain information about what scopes, or permissions.
+  """
+  accessToken: JWT
+  """
+  Token used to obtain a renewed Access Token without forcing users to log in again.
+  """
+  refreshToken: JWT
+}
+
+type UserResponse implements Response {
+  success: Boolean
+  message: String
+  user: User!
+}
+
+enum IdentityProvider {
+  GOOGLE
+}
+
+input IdentityProviderLoginInput {
+  provider: IdentityProvider!
+  token: NonEmptyString!
+}
+
+input EmailLoginInput {
+  email: EmailAddress!
+  password: NonEmptyString!
+}
+
+input EmailOTPLoginInput {
+  email: EmailAddress!
+  otp: NonEmptyString!
+}
+
+input SMSOTPLoginInput {
+  phoneNumber: PhoneNumber!
+  otp: NonEmptyString!
+}
+
+input RegisterWithEmailInput {
+  firstName: NonEmptyString!
+  lastName: NonEmptyString
+  surname: NonEmptyString
+  email: EmailAddress!
+  password: NonEmptyString!
+  phoneNumber: PhoneNumber
+  language: Locale
+}
+
+input UpdateBasicInfoInput {
+  firstName: NonEmptyString!
+  lastName: NonEmptyString
+  surname: NonEmptyString
+  language: Locale
+}
+
+input ResetPasswordInput {
+  password: NonEmptyString!
+  token: NonEmptyString!
+}
+
+input VerifyPhoneNumberInput {
+  phoneNumber: PhoneNumber!
+  token: NonEmptyString!
+}
+
+input VerifyNewEmailInput {
+  email: EmailAddress!
+  token: NonEmptyString!
+}
+
+input DeleteAccountInput {
+  password: NonEmptyString!
+  token: NonEmptyString!
+}
+
+input UpdatePhoneNumberInput {
+  phoneNumber: PhoneNumber!
+}
+
+input VerifyEmailInput {
+  token: NonEmptyString!
+}
+
+input CreateUserInput {
+  firstName: NonEmptyString!
+  lastName: NonEmptyString
+  surname: NonEmptyString
+  email: EmailAddress!
+  password: NonEmptyString
+  language: Locale
+  phoneNumber: PhoneNumber
+  status: AccountStatus
+}
+
+input UpdateUserInput {
+  id: ID!
+  firstName: NonEmptyString
+  lastName: NonEmptyString
+  surname: NonEmptyString
+  email: EmailAddress
+  password: NonEmptyString
+  language: Locale
+  phoneNumber: PhoneNumber
+  status: AccountStatus
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+input SendVerificationEmailInput {
+  email: EmailAddress!
+}
+
+input SendPhoneNumberVerificationSMSInput {
+  phoneNumber: PhoneNumber!
+}
+
+input SendPasswordResetEmailInput {
+  email: EmailAddress!
+}
+
+input SendEmailLoginOTPInput {
+  email: EmailAddress!
+}
+
+input SendSMSLoginOTPInput {
+  phoneNumber: PhoneNumber!
+}
+
+input UnblockUserIPsInput {
+  id: ID!
+  ips: [IP!]!
+}
