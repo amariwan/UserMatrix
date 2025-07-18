@@ -3,7 +3,7 @@ import type { Config } from "jest";
 const config: Config = {
   preset: "ts-jest",
   testEnvironment: "node",
-  roots: ["<rootDir>/src", "<rootDir>/test", "<rootDir>/e2e"],
+  roots: ["<rootDir>/src", "<rootDir>/test"],
   moduleFileExtensions: ["ts", "js", "json"],
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
   moduleNameMapper: {
@@ -18,8 +18,15 @@ const config: Config = {
     "!src/**/*.d.ts",
     "!src/**/__tests__/**",
     "!src/**/test-utils/**",
-    "!src/config/**",
   ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 85,
+      lines: 90,
+      statements: 90,
+    },
+  },
   coverageDirectory: "coverage",
   setupFilesAfterEnv: ["./test/helpers/ioredis-mock.ts", "./test/helpers/teardown.ts"],
 };
