@@ -32,6 +32,6 @@
       }
     ]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "tsconfig.json", "test"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "tsconfig.json", "test", "*.ts", "types/**/*.d.ts"],
   "exclude": ["node_modules", "dist", "build", "coverage"]
 }
