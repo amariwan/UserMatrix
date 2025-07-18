@@ -17,7 +17,8 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "typeRoots": ["./types", "./node_modules/@types"],
-    "types": ["node", "react", "jest"],
+    "types": ["node", "jest"],
+    "rootDir": ".",
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
@@ -31,6 +32,6 @@
       }
     ]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "next.config.ts", "jest.config.ts", "tsconfig.json"],
-  "exclude": ["node_modules", ".next", "dist", "build", "coverage"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "tsconfig.json"],
+  "exclude": ["node_modules", "dist", "build", "coverage"]
 }

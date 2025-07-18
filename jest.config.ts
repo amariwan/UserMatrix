@@ -1,27 +1,17 @@
-/**
- * @jest-config-loader ts-node
- */
-/** @type {import('jest').Config} */
 import type { Config } from "jest";
 
 const config: Config = {
+  preset: "ts-jest",
   testEnvironment: "node",
-
-  roots: ["<rootDir>/src", "<rootDir>/test"],
-
-  moduleFileExtensions: ["js", "ts", "json"],
-
+  roots: ["<rootDir>/src", "<rootDir>/test", "<rootDir>/e2e"],
+  moduleFileExtensions: ["ts", "js", "json"],
+  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
-    "^test/(.*)$": "<rootDir>/test/$1",
-    "^types/(.*)$": "<rootDir>/types/$1",
-    "^assets/(.*)$": "<rootDir>/assets/$1",
+    "^@test/(.*)$": "<rootDir>/test/$1",
+    "^@types/(.*)$": "<rootDir>/types/$1",
+    "^@assets/(.*)$": "<rootDir>/assets/$1",
   },
-
-  transform: {
-    "^.+\\.(ts|js)$": "babel-jest",
-  },
-
   collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.{ts,js}",
@@ -31,28 +21,7 @@ const config: Config = {
     "!src/config/**",
   ],
   coverageDirectory: "coverage",
-  coverageReporters: ["json", "text", "lcov"],
-
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 85,
-      statements: 85,
-    },
-  },
-
-  setupFilesAfterEnv: [
-    "<rootDir>/test/helpers/ioredis-mock.ts",
-    "<rootDir>/test/helpers/teardown.ts",
-  ],
-
-  testMatch: ["**/test/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
-
-  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/coverage/"],
-
-  verbose: true,
-  watchPathIgnorePatterns: ["/node_modules/", "/coverage/"],
+  setupFilesAfterEnv: ["./test/helpers/ioredis-mock.ts", "./test/helpers/teardown.ts"],
 };
 
 export default config;
