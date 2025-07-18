@@ -3,6 +3,7 @@ import type { AppContext } from "types";
 import type { PictureThumbnailArgs, PictureUrlArgs } from "types/graphql";
 
 import { S3_URL_EXPIRES_IN } from "@/constants/limits";
+
 import dayjs from "@/utils/dayjs";
 import getImageUrl from "@/utils/getImageUrl";
 
@@ -16,7 +17,7 @@ export default {
     },
     async downloadUrl({ key, bucket }: File, _args: never, context: AppContext) {
       const { storage } = context;
-      return await storage.getSignedDownloadUrl(
+      return storage.getSignedDownloadUrl(
         bucket,
         key,
         dayjs.duration(...S3_URL_EXPIRES_IN).asSeconds(),

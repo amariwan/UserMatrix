@@ -3,6 +3,7 @@ import { rateLimit } from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 
 import client from "@/config/redis";
+
 import { RATE_LIMITER_MAX_REQUESTS_PER_WINDOW, RATE_LIMITER_WINDOW_MS } from "@/constants/limits";
 
 const rateLimiter = rateLimit({
@@ -11,7 +12,7 @@ const rateLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   store: new RedisStore({
     // @ts-expect-error - Known issue: the `call` function is not present in @types/ioredis
-    sendCommand: async (...args: string[]) => await client.call(...args),
+    sendCommand: async (...args: string[]) => client.call(...args),
   }),
   skip: () => process.env.NODE_ENV === "development",
   limit: async (_req: Request) => RATE_LIMITER_MAX_REQUESTS_PER_WINDOW,

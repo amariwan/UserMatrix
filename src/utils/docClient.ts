@@ -7,7 +7,7 @@ import logger from "./logger";
 const TableName: string = process.env.AWS_DYNAMODB_TABLE!;
 
 async function putItem(Item: Record<string, unknown>) {
-  return await client.send(
+  return client.send(
     new PutCommand({
       TableName,
       Item,
@@ -58,7 +58,7 @@ const query = async ({
   ConsistentRead?: boolean;
   ScanIndexForward?: boolean;
 }) =>
-  await client.send(
+  client.send(
     new QueryCommand({
       TableName,
       KeyConditionExpression,

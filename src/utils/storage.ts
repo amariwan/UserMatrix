@@ -39,7 +39,7 @@ export const getSignedDownloadUrl = async (bucket: string, key: string, expiresI
     Bucket: bucket,
   });
 
-  return await getSignedUrl(s3, command, {
+  return getSignedUrl(s3, command, {
     expiresIn,
   });
 };
