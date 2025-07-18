@@ -14,14 +14,7 @@ export default {
       _args: never,
       context: AppContext,
     ): Promise<MutationResponse> {
-      const {
-        currentUser,
-        prismaClient,
-        redisClient,
-        jwtClient,
-        emailClient,
-        t,
-      } = context;
+      const { currentUser, prismaClient, redisClient, jwtClient, emailClient, t } = context;
 
       const user = await prismaClient.user.findUnique({
         where: {
@@ -41,9 +34,7 @@ export default {
           const sentToken = await redisClient.get(cacheKey);
 
           if (!sentToken) {
-            const expiresIn = dayjs
-              .duration(...DELETE_ACCOUNT_TOKEN_EXPIRES_IN)
-              .asSeconds();
+            const expiresIn = dayjs.duration(...DELETE_ACCOUNT_TOKEN_EXPIRES_IN).asSeconds();
 
             const token = jwtClient.signForAllClients(
               { email: user.email },

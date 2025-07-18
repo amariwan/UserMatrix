@@ -24,11 +24,7 @@ declare module "multer-s3" {
     contentType?(
       req: Express.Request,
       file: Express.Multer.File,
-      callback: (
-        error: any,
-        mime?: string,
-        stream?: NodeJS.ReadableStream,
-      ) => void,
+      callback: (error: any, mime?: string, stream?: NodeJS.ReadableStream) => void,
     ): void;
     contentDisposition?:
       | ((
@@ -67,11 +63,7 @@ declare module "multer-s3" {
     AUTO_CONTENT_TYPE: (
       req: Express.Request,
       file: Express.Multer.File,
-      callback: (
-        error: any,
-        mime?: string,
-        stream?: NodeJS.ReadableStream,
-      ) => void,
+      callback: (error: any, mime?: string, stream?: NodeJS.ReadableStream) => void,
     ) => void;
     DEFAULT_CONTENT_TYPE: (
       req: Express.Request,

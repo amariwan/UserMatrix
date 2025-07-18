@@ -5,11 +5,7 @@ import { generateKeys } from "@/utils/generateKeys";
 
 export default {
   Mutation: {
-    rotateKeys(
-      _parent: unknown,
-      _args: never,
-      context: AppContext,
-    ): MutationResponse {
+    rotateKeys(_parent: unknown, _args: never, context: AppContext): MutationResponse {
       const { t } = context;
 
       generateKeys();

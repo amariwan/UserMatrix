@@ -1,9 +1,6 @@
 import { UserStatus } from "@prisma/client";
 import type { AppContext } from "types";
-import type {
-  MutationRequestResetUserPasswordArgs,
-  MutationResponse,
-} from "types/graphql";
+import type { MutationRequestResetUserPasswordArgs, MutationResponse } from "types/graphql";
 
 import { PASSWORD_RESET_PREFIX } from "@/constants/cachePrefixes";
 import { PASSWORD_RESET_TOKEN_EXPIRES_IN } from "@/constants/limits";
@@ -40,9 +37,7 @@ export default {
         });
 
         if (user) {
-          const expiresIn = dayjs
-            .duration(...PASSWORD_RESET_TOKEN_EXPIRES_IN)
-            .asSeconds();
+          const expiresIn = dayjs.duration(...PASSWORD_RESET_TOKEN_EXPIRES_IN).asSeconds();
 
           const token = jwtClient.signForAllClients(
             { email },

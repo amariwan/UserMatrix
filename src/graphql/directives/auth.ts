@@ -6,11 +6,8 @@ import { type AuthRule, AuthStrategy } from "types/graphql";
 import AuthenticationError from "@/utils/errors/AuthenticationError";
 import ForbiddenError from "@/utils/errors/ForbiddenError";
 
-export default function authDirectiveTransformer(
-  schema: GraphQLSchema,
-  directiveName: string,
-) {
-  const typeDirectiveArgumentMaps: Record<string, any> = {};
+export default function authDirectiveTransformer(schema: GraphQLSchema, directiveName: string) {
+  const typeDirectiveArgumentMaps: Record<string, unknown> = {};
 
   return mapSchema(schema, {
     [MapperKind.TYPE]: (type) => {
@@ -42,31 +39,27 @@ export default function authDirectiveTransformer(
             const { rules } = authDirective as { rules?: AuthRule[] };
 
             if (!currentUser.roles.includes("Root") && rules) {
-              const checks = rules.map(
-                ({ allow, ownerField, roles, permissions, status }) => {
-                  switch (allow) {
-                    case AuthStrategy.Owner: {
-                      return source[ownerField ?? "ownerId"] === currentUser.id;
-                    }
-                    case AuthStrategy.Roles: {
-                      return roles?.some((role) =>
-                        currentUser.roles.includes(role!),
-                      );
-                    }
-                    case AuthStrategy.Permissions: {
-                      return permissions?.some((permission) =>
-                        currentUser.permissions.includes(permission!),
-                      );
-                    }
-                    case AuthStrategy.Status: {
-                      return status?.includes(currentUser.status);
-                    }
-                    default: {
-                      return false;
-                    }
+              const checks = rules.map(({ allow, ownerField, roles, permissions, status }) => {
+                switch (allow) {
+                  case AuthStrategy.Owner: {
+                    return source[ownerField ?? "ownerId"] === currentUser.id;
                   }
-                },
-              );
+                  case AuthStrategy.Roles: {
+                    return roles?.some((role) => currentUser.roles.includes(role!));
+                  }
+                  case AuthStrategy.Permissions: {
+                    return permissions?.some((permission) =>
+                      currentUser.permissions.includes(permission!),
+                    );
+                  }
+                  case AuthStrategy.Status: {
+                    return status?.includes(currentUser.status);
+                  }
+                  default: {
+                    return false;
+                  }
+                }
+              });
 
               if (!checks.some((allowed) => allowed)) {
                 throw new ForbiddenError(

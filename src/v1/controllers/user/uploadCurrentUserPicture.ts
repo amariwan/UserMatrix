@@ -12,11 +12,7 @@ import QueryError from "@/utils/errors/QueryError";
 import getImageUrl from "@/utils/getImageUrl";
 import uploader from "@/v1/middlewares/fileUploader";
 
-const uploadCurrentUserPicture = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const uploadCurrentUserPicture = (req: Request, res: Response, next: NextFunction) => {
   const upload = uploader({
     supportedMimeTypes: SUPPORTED_IMAGE_TYPES,
     folder: "avatars",

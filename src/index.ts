@@ -48,9 +48,7 @@ async function main() {
 
   app.get("/healthz", (req, res) => res.json({ success: true }));
 
-  app.get("/generate_204", (req, res) =>
-    res.status(204).json({ success: true }),
-  );
+  app.get("/generate_204", (req, res) => res.status(204).json({ success: true }));
 
   app.get("/ip", (request, response) => response.send(request.ip));
 

@@ -1,8 +1,5 @@
 import type { AppContext } from "types";
-import type {
-  MutationResponse,
-  MutationSendSmsLoginOtpToUsersArgs,
-} from "types/graphql";
+import type { MutationResponse, MutationSendSmsLoginOtpToUsersArgs } from "types/graphql";
 
 import { PHONE_NUMBER_LOGIN_OTP_PREFIX } from "@/constants/cachePrefixes";
 import { PHONE_NUMBER_OTP_EXPIRES_IN } from "@/constants/limits";

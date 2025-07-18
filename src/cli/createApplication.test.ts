@@ -1,6 +1,8 @@
-import createApplication from "./createApplication";
-import prismaClient from "@/config/database";
 import consola from "consola";
+
+import prismaClient from "@/config/database";
+
+import createApplication from "./createApplication";
 
 jest.mock("@/config/database");
 jest.mock("consola");

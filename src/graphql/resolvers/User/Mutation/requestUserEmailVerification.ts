@@ -1,9 +1,6 @@
 import { UserStatus } from "@prisma/client";
 import type { AppContext } from "types";
-import type {
-  MutationRequestUserEmailVerificationArgs,
-  MutationResponse,
-} from "types/graphql";
+import type { MutationRequestUserEmailVerificationArgs, MutationResponse } from "types/graphql";
 
 import { VERIFY_EMAIL_OTP_PREFIX } from "@/constants/cachePrefixes";
 import { EMAIL_VERIFICATION_TOKEN_EXPIRES_IN } from "@/constants/limits";
@@ -35,9 +32,7 @@ export default {
         });
 
         if (user) {
-          const expiresIn = dayjs
-            .duration(...EMAIL_VERIFICATION_TOKEN_EXPIRES_IN)
-            .asSeconds();
+          const expiresIn = dayjs.duration(...EMAIL_VERIFICATION_TOKEN_EXPIRES_IN).asSeconds();
 
           const token = jwtClient.signForAllClients(
             { email },

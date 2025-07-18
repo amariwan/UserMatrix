@@ -26,11 +26,7 @@ export default {
 
       return session;
     },
-    async sessions(
-      _parent: unknown,
-      { limit }: QuerySessionsArgs,
-      context: AppContext,
-    ) {
+    async sessions(_parent: unknown, { limit }: QuerySessionsArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.session.findMany({

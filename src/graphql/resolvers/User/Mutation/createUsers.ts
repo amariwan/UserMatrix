@@ -27,17 +27,11 @@ export default {
         const inputSchema = z.object({
           email: z
             .string({
-              required_error: t(
-                "mutation.registerWithEmail.errors.fields.email.required",
-              ),
-              invalid_type_error: t(
-                "mutation.registerWithEmail.errors.fields.email.invalidEmail",
-              ),
+              required_error: t("mutation.registerWithEmail.errors.fields.email.required"),
+              invalid_type_error: t("mutation.registerWithEmail.errors.fields.email.invalidEmail"),
             })
             .trim()
-            .email(
-              t("mutation.registerWithEmail.errors.fields.email.invalidEmail"),
-            ),
+            .email(t("mutation.registerWithEmail.errors.fields.email.invalidEmail")),
           firstName: z
             .string()
             .trim()
@@ -86,9 +80,7 @@ export default {
             )
             .optional(),
           password: z
-            .string(
-              t("mutation.registerWithEmail.errors.fields.password.required"),
-            )
+            .string(t("mutation.registerWithEmail.errors.fields.password.required"))
             .trim()
             .min(
               USER_PASSWORD_MIN_LENGTH,
@@ -145,12 +137,10 @@ export default {
         }
 
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
           throw new ValidationError(t("mutation.createUsers.errors.message"), {
             originalError: e,

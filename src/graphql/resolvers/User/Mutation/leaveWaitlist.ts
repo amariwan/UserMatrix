@@ -1,10 +1,7 @@
 import { UserStatus } from "@prisma/client";
 import { JsonWebTokenError } from "jsonwebtoken";
 import type { AppContext } from "types";
-import type {
-  MutationLeaveWaitlistArgs,
-  MutationResponse,
-} from "types/graphql";
+import type { MutationLeaveWaitlistArgs, MutationResponse } from "types/graphql";
 
 import AuthenticationError from "@/utils/errors/AuthenticationError";
 

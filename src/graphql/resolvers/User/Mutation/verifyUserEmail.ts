@@ -1,10 +1,7 @@
 import { UserStatus } from "@prisma/client";
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import type { AppContext } from "types";
-import type {
-  MutationResponse,
-  MutationVerifyUserEmailArgs,
-} from "types/graphql";
+import type { MutationResponse, MutationVerifyUserEmailArgs } from "types/graphql";
 
 import { VERIFY_EMAIL_OTP_PREFIX } from "@/constants/cachePrefixes";
 import { WELCOME_TEMPLATE } from "@/constants/templates";
@@ -25,9 +22,7 @@ export default {
         const sentToken = await redisClient.get(cacheKey);
 
         if (!sentToken || sentToken !== input.token) {
-          throw new AuthenticationError(
-            t("mutation.verifyUserEmail.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.verifyUserEmail.errors.message"));
         }
 
         const user = await prismaClient.user.findFirst({
@@ -41,9 +36,7 @@ export default {
         });
 
         if (!user) {
-          throw new AuthenticationError(
-            t("mutation.verifyUserEmail.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.verifyUserEmail.errors.message"));
         }
 
         await prismaClient.user.update({
@@ -75,9 +68,7 @@ export default {
         };
       } catch (e) {
         if (e instanceof JsonWebTokenError || e instanceof TokenExpiredError) {
-          throw new AuthenticationError(
-            t("mutation.verifyUserEmail.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.verifyUserEmail.errors.message"));
         }
         throw e;
       }

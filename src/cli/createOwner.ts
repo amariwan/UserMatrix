@@ -19,14 +19,8 @@ const rootRole = {
 
 const nameSchema = z
   .string()
-  .min(
-    USER_NAME_MIN_LENGTH,
-    `Name should be at least ${USER_NAME_MIN_LENGTH} characters long.`,
-  )
-  .max(
-    USER_NAME_MAX_LENGTH,
-    `Name should be at least ${USER_NAME_MAX_LENGTH} characters long.`,
-  );
+  .min(USER_NAME_MIN_LENGTH, `Name should be at least ${USER_NAME_MIN_LENGTH} characters long.`)
+  .max(USER_NAME_MAX_LENGTH, `Name should be at least ${USER_NAME_MAX_LENGTH} characters long.`);
 
 const passwordSchema = z
   .string()

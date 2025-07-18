@@ -148,20 +148,20 @@ Example:
 ```js
 // NOT: This will not delete the picture in S3
 prisma.update({
-	where: {},
-	data: {
-		picture: {
-			delete: true,
-		},
-	},
+  where: {},
+  data: {
+    picture: {
+      delete: true,
+    },
+  },
 });
 
 // DO: This will delete the file row and the corresponding object in S3
 await prisma.file.delete({
-	where: {
-		key: '...',
-		bucket: '...',
-	},
+  where: {
+    key: "...",
+    bucket: "...",
+  },
 });
 ```
 

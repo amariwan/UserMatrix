@@ -7,11 +7,7 @@ import QueryError from "@/utils/errors/QueryError";
 
 export default {
   Query: {
-    async user(
-      _parent: unknown,
-      { id }: QueryUserArgs,
-      context: AppContext,
-    ): Promise<User> {
+    async user(_parent: unknown, { id }: QueryUserArgs, context: AppContext): Promise<User> {
       const { prismaClient, t } = context;
 
       const user = await prismaClient.user.findUnique({
@@ -26,11 +22,7 @@ export default {
 
       return user;
     },
-    async users(
-      _parent: unknown,
-      { limit }: QueryUsersArgs,
-      context: AppContext,
-    ) {
+    async users(_parent: unknown, { limit }: QueryUsersArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.user.findMany({

@@ -32,9 +32,7 @@ type Query {
 }
 
 type Mutation {
-  createUserPermissions(
-    inputs: [CreateUserPermissionInput!]!
-  ): [UserPermission]!
+  createUserPermissions(inputs: [CreateUserPermissionInput!]!): [UserPermission]!
     @auth(
       rules: [
         { allow: roles, roles: ["Admin"] }
@@ -42,9 +40,7 @@ type Mutation {
       ]
     )
 
-  deleteUserPermissions(
-    inputs: [DeleteUserPermissionInput!]!
-  ): [UserPermission]!
+  deleteUserPermissions(inputs: [DeleteUserPermissionInput!]!): [UserPermission]!
     @auth(
       rules: [
         { allow: roles, roles: ["Admin"] }

@@ -1,8 +1,4 @@
-import {
-  DeleteObjectCommand,
-  DeleteObjectsCommand,
-  GetObjectCommand,
-} from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, DeleteObjectsCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import s3 from "@/config/aws/s3";
@@ -37,11 +33,7 @@ export const deleteManyObjects = async (keys: string[], Bucket: string) => {
   }
 };
 
-export const getSignedDownloadUrl = async (
-  bucket: string,
-  key: string,
-  expiresIn: number,
-) => {
+export const getSignedDownloadUrl = async (bucket: string, key: string, expiresIn: number) => {
   const command = new GetObjectCommand({
     Key: key,
     Bucket: bucket,

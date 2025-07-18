@@ -2,9 +2,7 @@ import { generateKeyPairSync } from "crypto";
 import fs from "fs";
 
 export function isKeysExists() {
-  return (
-    fs.existsSync("certs/private.pem") && fs.existsSync("certs/public.pem")
-  );
+  return fs.existsSync("certs/private.pem") && fs.existsSync("certs/public.pem");
 }
 
 export function generateKeys() {
@@ -17,12 +15,6 @@ export function generateKeys() {
   const { privateKey, publicKey } = generateKeyPairSync("rsa", {
     modulusLength: 2048,
   });
-  fs.writeFileSync(
-    "certs/private.pem",
-    privateKey.export({ type: "pkcs1", format: "pem" }),
-  );
-  fs.writeFileSync(
-    "certs/public.pem",
-    publicKey.export({ type: "spki", format: "pem" }),
-  );
+  fs.writeFileSync("certs/private.pem", privateKey.export({ type: "pkcs1", format: "pem" }));
+  fs.writeFileSync("certs/public.pem", publicKey.export({ type: "spki", format: "pem" }));
 }

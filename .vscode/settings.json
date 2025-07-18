@@ -1,6 +1,4 @@
 {
-   "i18n-ally.localesPaths": [
-      "assets/locales",
-      "assets/emails/locales"
-   ]
+  "i18n-ally.localesPaths": ["assets/locales", "assets/emails/locales"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

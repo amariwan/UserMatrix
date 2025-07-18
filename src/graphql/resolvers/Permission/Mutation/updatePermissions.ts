@@ -4,10 +4,7 @@ import type { AppContext } from "types";
 import type { MutationUpdatePermissionsArgs } from "types/graphql";
 import { z, ZodError } from "zod";
 
-import {
-  PERMISSION_DESCRIPTION_MAX_LENGTH,
-  PERMISSION_NAME_MAX_LENGTH,
-} from "@/constants/limits";
+import { PERMISSION_DESCRIPTION_MAX_LENGTH, PERMISSION_NAME_MAX_LENGTH } from "@/constants/limits";
 import QueryError from "@/utils/errors/QueryError";
 import ValidationError from "@/utils/errors/ValidationError";
 
@@ -66,20 +63,15 @@ export default {
         }
 
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
-          throw new ValidationError(
-            t("mutation.updatePermissions.errors.message"),
-            {
-              originalError: e,
-              fieldErrors,
-            },
-          );
+          throw new ValidationError(t("mutation.updatePermissions.errors.message"), {
+            originalError: e,
+            fieldErrors,
+          });
         }
         throw e;
       }

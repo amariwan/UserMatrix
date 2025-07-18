@@ -2,10 +2,7 @@ import { UserStatus } from "@prisma/client";
 import type { AppContext } from "types";
 import type { AuthResponse, MutationLoginWithSmsotpArgs } from "types/graphql";
 
-import {
-  LOGIN_ATTEMPT_PREFIX,
-  PHONE_NUMBER_LOGIN_OTP_PREFIX,
-} from "@/constants/cachePrefixes";
+import { LOGIN_ATTEMPT_PREFIX, PHONE_NUMBER_LOGIN_OTP_PREFIX } from "@/constants/cachePrefixes";
 import {
   BLOCK_IP_DURATION,
   BRUTE_FORCE_THRESHOLD,
@@ -38,9 +35,7 @@ export default {
       const sentOtp = await redisClient.get(cacheKey);
 
       if (!sentOtp) {
-        throw new AuthenticationError(
-          t("mutation.loginWithOTP.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithOTP.errors.message"));
       }
 
       const user = await prismaClient.user.findFirst({
@@ -52,24 +47,16 @@ export default {
       });
 
       if (!user) {
-        throw new AuthenticationError(
-          t("mutation.loginWithOTP.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithOTP.errors.message"));
       }
 
-      const blockedIps = new Map(
-        Object.entries(user.blockedIps! as Record<string, string>),
-      );
+      const blockedIps = new Map(Object.entries(user.blockedIps! as Record<string, string>));
       const blockedIpAt = blockedIps.get(clientIp);
 
-      const isBlocked =
-        blockedIpAt &&
-        dayjs().diff(blockedIpAt, "days") <= BLOCK_IP_DURATION[0];
+      const isBlocked = blockedIpAt && dayjs().diff(blockedIpAt, "days") <= BLOCK_IP_DURATION[0];
 
       if (isBlocked) {
-        throw new AuthenticationError(
-          t("mutation.loginWithOTP.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithOTP.errors.message"));
       }
 
       if (otp !== sentOtp) {
@@ -110,9 +97,7 @@ export default {
           );
         }
 
-        throw new AuthenticationError(
-          t("mutation.loginWithOTP.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithOTP.errors.message"));
       }
 
       await redisClient.del(cacheKey);

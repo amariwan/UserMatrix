@@ -14,7 +14,7 @@ const rateLimiter = rateLimit({
     sendCommand: async (...args: string[]) => await client.call(...args),
   }),
   skip: () => process.env.NODE_ENV === "development",
-  limit: async (req: Request) => RATE_LIMITER_MAX_REQUESTS_PER_WINDOW,
+  limit: async (_req: Request) => RATE_LIMITER_MAX_REQUESTS_PER_WINDOW,
   message: async (req: Request) => {
     const { t } = req;
 

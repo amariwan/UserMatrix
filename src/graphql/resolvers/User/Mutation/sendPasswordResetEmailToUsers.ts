@@ -1,8 +1,5 @@
 import type { AppContext } from "types";
-import type {
-  MutationResponse,
-  MutationSendPasswordResetEmailToUsersArgs,
-} from "types/graphql";
+import type { MutationResponse, MutationSendPasswordResetEmailToUsersArgs } from "types/graphql";
 
 import { PASSWORD_RESET_PREFIX } from "@/constants/cachePrefixes";
 import { PASSWORD_RESET_TOKEN_EXPIRES_IN } from "@/constants/limits";
@@ -31,9 +28,7 @@ export default {
         (async () => {
           const { email, language, firstName } = user;
           const cacheKey = `${PASSWORD_RESET_PREFIX}:${email}`;
-          const expiresIn = dayjs
-            .duration(...PASSWORD_RESET_TOKEN_EXPIRES_IN)
-            .asSeconds();
+          const expiresIn = dayjs.duration(...PASSWORD_RESET_TOKEN_EXPIRES_IN).asSeconds();
 
           const token = jwtClient.signForAllClients(
             { email },

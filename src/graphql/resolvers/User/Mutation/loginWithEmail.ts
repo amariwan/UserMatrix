@@ -40,26 +40,17 @@ export default {
       });
 
       if (!user) {
-        throw new AuthenticationError(
-          t("mutation.loginWithEmail.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithEmail.errors.message"));
       }
 
-      const blockedIps = new Map(
-        Object.entries(user.blockedIps! as Record<string, string>),
-      );
+      const blockedIps = new Map(Object.entries(user.blockedIps! as Record<string, string>));
       const blockedIpAt = blockedIps.get(clientIp);
 
-      const isBlocked =
-        blockedIpAt &&
-        dayjs().diff(blockedIpAt, "days") <= BLOCK_IP_DURATION[0];
+      const isBlocked = blockedIpAt && dayjs().diff(blockedIpAt, "days") <= BLOCK_IP_DURATION[0];
 
       if (isBlocked) {
-        console.log("blocked");
         // We alert users of incorrect email/password to avoid confirming the password's accuracy to potential attackers.
-        throw new AuthenticationError(
-          t("mutation.loginWithEmail.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithEmail.errors.message"));
       }
 
       const isMatched = await user.comparePassword(input.password as string);
@@ -103,9 +94,7 @@ export default {
           );
         }
 
-        throw new AuthenticationError(
-          t("mutation.loginWithEmail.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.loginWithEmail.errors.message"));
       }
 
       const session = await prismaClient.session.create({

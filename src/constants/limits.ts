@@ -22,10 +22,7 @@ export const RESET_LOGIN_ATTEMPTS_IN: DurationType = [15, "minutes"];
 export const BLOCK_IP_DURATION: DurationType = [30, "days"];
 export const LOGIN_OTP_EXPIRES_IN: DurationType = [5, "minutes"];
 export const EMAIL_VERIFICATION_TOKEN_EXPIRES_IN: DurationType = [5, "minutes"];
-export const PHONE_NUMBER_VERIFICATION_TOKEN_EXPIRES_IN: DurationType = [
-  10,
-  "minutes",
-];
+export const PHONE_NUMBER_VERIFICATION_TOKEN_EXPIRES_IN: DurationType = [10, "minutes"];
 export const PASSWORD_RESET_TOKEN_EXPIRES_IN: DurationType = [5, "minutes"];
 export const DELETE_ACCOUNT_TOKEN_EXPIRES_IN: DurationType = [5, "minutes"];
 export const PHONE_NUMBER_OTP_EXPIRES_IN: DurationType = [8, "minutes"];

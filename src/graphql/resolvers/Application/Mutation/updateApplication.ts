@@ -58,20 +58,15 @@ export default {
         }
 
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
-          throw new ValidationError(
-            t("mutation.updateApplication.errors.message"),
-            {
-              originalError: e,
-              fieldErrors,
-            },
-          );
+          throw new ValidationError(t("mutation.updateApplication.errors.message"), {
+            originalError: e,
+            fieldErrors,
+          });
         }
 
         throw e;

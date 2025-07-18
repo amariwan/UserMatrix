@@ -4,9 +4,7 @@ import Redis from "ioredis";
 const createRedisClient = () => {
   let redisClient: Redis;
   if (process.env.REDIS_URL) {
-    redisClient = new Redis(process.env.REDIS_URL,
-
-    );
+    redisClient = new Redis(process.env.REDIS_URL);
   } else if (process.env.REDIS_PORT && process.env.REDIS_HOST) {
     const port = Number.parseInt(process.env.REDIS_PORT, 10);
 

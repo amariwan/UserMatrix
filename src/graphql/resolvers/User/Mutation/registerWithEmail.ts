@@ -1,9 +1,6 @@
 import { UserStatus } from "@prisma/client";
 import type { AppContext } from "types";
-import type {
-  AuthResponse,
-  MutationRegisterWithEmailArgs,
-} from "types/graphql";
+import type { AuthResponse, MutationRegisterWithEmailArgs } from "types/graphql";
 import { z, ZodError } from "zod";
 
 import {
@@ -21,8 +18,7 @@ export default {
       { input }: MutationRegisterWithEmailArgs,
       context: AppContext,
     ): Promise<AuthResponse> {
-      const { prismaClient, t, jwtClient, clientId, clientIp, userAgent } =
-        context;
+      const { prismaClient, t, jwtClient, clientId, clientIp, userAgent } = context;
 
       try {
         const { email } = input;
@@ -30,17 +26,11 @@ export default {
         const form = z.object({
           email: z
             .string({
-              required_error: t(
-                "mutation.registerWithEmail.errors.fields.email.required",
-              ),
-              invalid_type_error: t(
-                "mutation.registerWithEmail.errors.fields.email.invalidEmail",
-              ),
+              required_error: t("mutation.registerWithEmail.errors.fields.email.required"),
+              invalid_type_error: t("mutation.registerWithEmail.errors.fields.email.invalidEmail"),
             })
             .trim()
-            .email(
-              t("mutation.registerWithEmail.errors.fields.email.invalidEmail"),
-            ),
+            .email(t("mutation.registerWithEmail.errors.fields.email.invalidEmail")),
           firstName: z
             .string()
             .trim()
@@ -89,9 +79,7 @@ export default {
             )
             .optional(),
           password: z
-            .string(
-              t("mutation.registerWithEmail.errors.fields.password.required"),
-            )
+            .string(t("mutation.registerWithEmail.errors.fields.password.required"))
             .trim()
             .min(
               USER_PASSWORD_MIN_LENGTH,
@@ -109,14 +97,7 @@ export default {
           language: z.string().optional(),
         });
 
-        const {
-          password,
-          firstName,
-          lastName,
-          surname,
-          phoneNumber,
-          language,
-        } = form.parse(input);
+        const { password, firstName, lastName, surname, phoneNumber, language } = form.parse(input);
 
         let user = await prismaClient.user.findFirst({
           where: {
@@ -124,10 +105,7 @@ export default {
           },
         });
 
-        const tempUserList: UserStatus[] = [
-          UserStatus.Staged,
-          UserStatus.Provisioned,
-        ];
+        const tempUserList: UserStatus[] = [UserStatus.Staged, UserStatus.Provisioned];
 
         if (user && tempUserList.includes(user.status)) {
           await prismaClient.user.delete({
@@ -148,21 +126,14 @@ export default {
             },
           });
         } else if (user) {
-          throw new ValidationError(
-            t("mutation.registerWithEmail.errors.message"),
-            {
-              fieldErrors: [
-                {
-                  name: "email",
-                  messages: [
-                    t(
-                      "mutation.registerWithEmail.errors.fields.email.alreadyExist",
-                    ),
-                  ],
-                },
-              ],
-            },
-          );
+          throw new ValidationError(t("mutation.registerWithEmail.errors.message"), {
+            fieldErrors: [
+              {
+                name: "email",
+                messages: [t("mutation.registerWithEmail.errors.fields.email.alreadyExist")],
+              },
+            ],
+          });
         } else {
           user = await prismaClient.user.create({
             data: {
@@ -205,20 +176,15 @@ export default {
         };
       } catch (e) {
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
-          throw new ValidationError(
-            t("mutation.registerWithEmail.errors.message"),
-            {
-              originalError: e,
-              fieldErrors,
-            },
-          );
+          throw new ValidationError(t("mutation.registerWithEmail.errors.message"), {
+            originalError: e,
+            fieldErrors,
+          });
         }
         throw e;
       }

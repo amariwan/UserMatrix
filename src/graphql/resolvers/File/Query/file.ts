@@ -27,11 +27,7 @@ export default {
 
       return file;
     },
-    async files(
-      _parent: unknown,
-      { limit }: QueryFilesArgs,
-      context: AppContext,
-    ) {
+    async files(_parent: unknown, { limit }: QueryFilesArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.file.findMany({

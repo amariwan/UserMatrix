@@ -1,10 +1,7 @@
 import { UserStatus } from "@prisma/client";
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import type { AppContext } from "types";
-import type {
-  MutationDeleteUserAccountArgs,
-  MutationResponse,
-} from "types/graphql";
+import type { MutationDeleteUserAccountArgs, MutationResponse } from "types/graphql";
 
 import { DELETE_USER_PREFIX } from "@/constants/cachePrefixes";
 import AuthenticationError from "@/utils/errors/AuthenticationError";
@@ -26,9 +23,7 @@ export default {
         const sentToken = await redisClient.getdel(cacheKey);
 
         if (!sentToken || sentToken !== input.token) {
-          throw new AuthenticationError(
-            t("mutation.deleteUserAccount.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.deleteUserAccount.errors.message"));
         }
 
         const user = await prismaClient.user.findFirst({
@@ -39,17 +34,13 @@ export default {
         });
 
         if (!user) {
-          throw new AuthenticationError(
-            t("mutation.deleteUserAccount.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.deleteUserAccount.errors.message"));
         }
 
         const isMatched = await user.comparePassword(input.password as string);
 
         if (!isMatched) {
-          throw new AuthenticationError(
-            t("mutation.deleteUserAccount.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.deleteUserAccount.errors.message"));
         }
 
         await prismaClient.user.delete({
@@ -64,9 +55,7 @@ export default {
         };
       } catch (e) {
         if (e instanceof JsonWebTokenError || e instanceof TokenExpiredError) {
-          throw new AuthenticationError(
-            t("mutation.deleteUserAccount.errors.message"),
-          );
+          throw new AuthenticationError(t("mutation.deleteUserAccount.errors.message"));
         }
         throw e;
       }

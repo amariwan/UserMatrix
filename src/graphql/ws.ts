@@ -14,10 +14,37 @@ import jwtClient from "@/utils/jwt";
 import log from "@/utils/logger";
 import storage from "@/utils/storage";
 
+interface ConnectionParams {
+  Authorization?: string;
+  client_id?: string;
+  [key: string]: unknown;
+}
+
+interface WebSocketContext {
+  t: typeof i18next.t;
+  pubsub: typeof pubsub;
+  storage: typeof storage;
+  currentUser: CurrentUser | undefined | null;
+  prismaClient: typeof prismaClient;
+}
+
+interface OnConnectContext {
+  connectionParams?: ConnectionParams;
+}
+
+interface ContextExtra {
+  socket: { close: (code: number, reason?: string) => void };
+}
+
+interface ContextParams {
+  connectionParams?: ConnectionParams;
+  extra: ContextExtra;
+}
+
 export default function useWebSocketServer(
   schema: GraphQLSchema,
   server: Server<typeof IncomingMessage, typeof ServerResponse>,
-) {
+): ReturnType<typeof useServer> {
   const wsServer = new WebSocketServer({
     server,
     path: "/graphql",
@@ -26,26 +53,21 @@ export default function useWebSocketServer(
   return useServer(
     {
       schema,
-      onConnect: async (ctx) => {
+      onConnect: async (ctx: OnConnectContext): Promise<boolean> => {
         try {
           const apps = await prismaClient.application.findMany();
 
-          jwtClient.setClients(apps.map((app) => app.clientId));
+          jwtClient.setClients(apps.map((app: { clientId: string }) => app.clientId));
 
           const clientId = ctx.connectionParams?.client_id as string;
 
-          if (
-            process.env.NODE_ENV === "production" &&
-            !jwtClient.clientIds.includes(clientId)
-          ) {
+          if (process.env.NODE_ENV === "production" && !jwtClient.clientIds.includes(clientId)) {
             return false;
           }
 
           jwtClient.setAudience(clientId);
 
-          const authorization = ctx.connectionParams?.Authorization as
-            | string
-            | undefined;
+          const authorization = ctx.connectionParams?.Authorization as string | undefined;
 
           if (!(authorization && authorization.startsWith("Bearer"))) {
             return false;
@@ -55,17 +77,16 @@ export default function useWebSocketServer(
 
           return !!jwtClient.verify(token);
         } catch (error) {
+          log.info({ error });
           return false;
         }
       },
-      context: async (ctx): Promise<SocketContext | undefined> => {
+      context: async (ctx: ContextParams): Promise<SocketContext | undefined> => {
         try {
           let currentUser: CurrentUser | undefined | null;
           const { t } = i18next;
 
-          const authorization = ctx.connectionParams?.Authorization as
-            | string
-            | undefined;
+          const authorization = ctx.connectionParams?.Authorization as string | undefined;
 
           if (authorization?.startsWith("Bearer")) {
             const token = authorization.split(/\s+/)[1];
@@ -82,25 +103,24 @@ export default function useWebSocketServer(
                 }
 
                 const session = currentUser.sessions.find(
-                  (session) => session.id === payload.azp,
+                  (session: { id: string }) => session.id === payload.azp,
                 );
 
                 if (!session) {
-                  throw new AuthenticationError(
-                    t("INVALID_AUTH_TOKEN", { ns: "error" }),
-                  );
+                  throw new AuthenticationError(t("INVALID_AUTH_TOKEN", { ns: "error" }));
                 }
               }
             }
           }
 
-          return {
+          const context: WebSocketContext = {
             t,
             pubsub,
             storage,
             currentUser,
             prismaClient,
           };
+          return context;
         } catch (error) {
           log.info({ error });
           Sentry.captureException(error);

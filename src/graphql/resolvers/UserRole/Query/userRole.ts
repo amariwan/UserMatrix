@@ -26,11 +26,7 @@ export default {
 
       return userRole;
     },
-    async userRoles(
-      _parent: unknown,
-      { limit }: QueryUserRolesArgs,
-      context: AppContext,
-    ) {
+    async userRoles(_parent: unknown, { limit }: QueryUserRolesArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.userRole.findMany({

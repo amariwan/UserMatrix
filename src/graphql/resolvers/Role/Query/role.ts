@@ -7,11 +7,7 @@ import QueryError from "@/utils/errors/QueryError";
 
 export default {
   Query: {
-    async role(
-      _parent: unknown,
-      { id }: QueryRoleArgs,
-      context: AppContext,
-    ): Promise<Role> {
+    async role(_parent: unknown, { id }: QueryRoleArgs, context: AppContext): Promise<Role> {
       const { prismaClient, t } = context;
 
       const role = await prismaClient.role.findUnique({
@@ -26,11 +22,7 @@ export default {
 
       return role;
     },
-    async roles(
-      _parent: unknown,
-      { limit }: QueryRolesArgs,
-      context: AppContext,
-    ) {
+    async roles(_parent: unknown, { limit }: QueryRolesArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.role.findMany({

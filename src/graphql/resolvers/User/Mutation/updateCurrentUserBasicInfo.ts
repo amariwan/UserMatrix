@@ -1,9 +1,5 @@
 import type { AppContext } from "types";
-import type {
-  MutationUpdateCurrentUserBasicInfoArgs,
-  User,
-  UserResponse,
-} from "types/graphql";
+import type { MutationUpdateCurrentUserBasicInfoArgs, User, UserResponse } from "types/graphql";
 import { z, ZodError } from "zod";
 
 import { USER_NAME_MAX_LENGTH, USER_NAME_MIN_LENGTH } from "@/constants/limits";
@@ -24,9 +20,7 @@ export default {
           .object({
             firstName: z
               .string({
-                required_error: t(
-                  "mutation.registerWithEmail.errors.fields.firstName.required",
-                ),
+                required_error: t("mutation.registerWithEmail.errors.fields.firstName.required"),
               })
               .min(
                 USER_NAME_MIN_LENGTH,
@@ -94,20 +88,15 @@ export default {
         };
       } catch (e) {
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
-          throw new ValidationError(
-            t("mutation.updateCurrentUserBasicInfo.errors.message"),
-            {
-              originalError: e,
-              fieldErrors,
-            },
-          );
+          throw new ValidationError(t("mutation.updateCurrentUserBasicInfo.errors.message"), {
+            originalError: e,
+            fieldErrors,
+          });
         }
         throw e;
       }

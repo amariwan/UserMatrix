@@ -1,16 +1,12 @@
-import {
-  BatchWriteCommand,
-  PutCommand,
-  QueryCommand,
-} from "@aws-sdk/lib-dynamodb";
+import { BatchWriteCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 import client from "@/config/aws/dynamodb";
 
 import logger from "./logger";
 
-const TableName = process.env.AWS_DYNAMODB_TABLE;
+const TableName: string = process.env.AWS_DYNAMODB_TABLE!;
 
-async function putItem(Item: Record<string, any>) {
+async function putItem(Item: Record<string, unknown>) {
   return await client.send(
     new PutCommand({
       TableName,
@@ -21,7 +17,7 @@ async function putItem(Item: Record<string, any>) {
 
 const REQUESTS_PER_BATCH = 25;
 
-async function putMany(items: Array<Record<string, any>>) {
+async function putMany(items: Array<Record<string, unknown>>) {
   const batches = [];
   for (let i = 0; i < REQUESTS_PER_BATCH; i += REQUESTS_PER_BATCH) {
     batches.push(
@@ -55,7 +51,7 @@ const query = async ({
 }: {
   KeyConditionExpression: string;
   FilterExpression?: string;
-  ExpressionAttributeValues: Record<string, any>;
+  ExpressionAttributeValues: Record<string, unknown>;
   ExpressionAttributeNames?: Record<string, string>;
   Limit?: number;
   IndexName?: string;

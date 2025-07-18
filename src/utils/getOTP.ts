@@ -10,9 +10,7 @@ interface OTPConfig {
 const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numeric = "0123456789";
 
-export default function getOTP(
-  { length, type }: OTPConfig = { type: "number" },
-) {
+export default function getOTP({ length, type }: OTPConfig = { type: "number" }) {
   let tokens = numeric;
 
   if (type === "alphnumeric") {

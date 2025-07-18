@@ -1,9 +1,6 @@
 import type { UserPermission } from "@prisma/client";
 import type { AppContext } from "types";
-import type {
-  QueryUserPermissionArgs,
-  QueryUserPermissionsArgs,
-} from "types/graphql";
+import type { QueryUserPermissionArgs, QueryUserPermissionsArgs } from "types/graphql";
 
 import { DEFAULT_LIST_SIZE } from "@/constants/limits";
 import QueryError from "@/utils/errors/QueryError";

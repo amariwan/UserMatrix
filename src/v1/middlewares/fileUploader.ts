@@ -11,11 +11,7 @@ interface UploadConfig {
   maxFileSizeInBytes?: number;
 }
 
-const fileUploader = ({
-  supportedMimeTypes,
-  folder,
-  maxFileSizeInBytes,
-}: UploadConfig) =>
+const fileUploader = ({ supportedMimeTypes, folder, maxFileSizeInBytes }: UploadConfig) =>
   multer({
     storage: multerS3({
       s3,
@@ -38,11 +34,7 @@ const fileUploader = ({
       } = req;
 
       if (!supportedMimeTypes.includes(file.mimetype)) {
-        cb(
-          new ValidationError(
-            t("UNSUPPORTED_FILE_TYPE", { ns: "error", supportedMimeTypes }),
-          ),
-        );
+        cb(new ValidationError(t("UNSUPPORTED_FILE_TYPE", { ns: "error", supportedMimeTypes })));
       } else {
         cb(null, true);
       }

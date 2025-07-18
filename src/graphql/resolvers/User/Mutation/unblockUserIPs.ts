@@ -1,9 +1,5 @@
 import type { AppContext } from "types";
-import type {
-  MutationUnblockUserIPsArgs,
-  User,
-  UserResponse,
-} from "types/graphql";
+import type { MutationUnblockUserIPsArgs, User, UserResponse } from "types/graphql";
 
 import QueryError from "@/utils/errors/QueryError";
 
@@ -27,9 +23,7 @@ export default {
         throw new QueryError(t("query.user.errors.notFound"));
       }
 
-      const blockedIps = new Map(
-        Object.entries(user.blockedIps as Record<string, string>),
-      );
+      const blockedIps = new Map(Object.entries(user.blockedIps as Record<string, string>));
 
       ips.forEach((ip) => blockedIps.delete(ip as string));
 

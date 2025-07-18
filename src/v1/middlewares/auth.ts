@@ -26,9 +26,7 @@ const authMiddleware =
             return roles?.some((role) => currentUser.roles.includes(role!));
           }
           case AuthStrategy.Permissions: {
-            return permissions?.some((permission) =>
-              currentUser.permissions.includes(permission!),
-            );
+            return permissions?.some((permission) => currentUser.permissions.includes(permission!));
           }
           case AuthStrategy.Status: {
             return status?.includes(currentUser.status);

@@ -9,8 +9,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadApplication",
-    description:
-      "Allows access to view details and information about existing applications.",
+    description: "Allows access to view details and information about existing applications.",
   },
   {
     name: "UpdateApplication",
@@ -26,8 +25,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadUser",
-    description:
-      "Provides access to view details and information about existing user accounts.",
+    description: "Provides access to view details and information about existing user accounts.",
   },
   {
     name: "UpdateUser",
@@ -51,8 +49,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "SendEmailLoginOTP",
-    description:
-      "Enables the sending of One-Time Passwords (OTPs) via email for login.",
+    description: "Enables the sending of One-Time Passwords (OTPs) via email for login.",
   },
   {
     name: "SendSMSLoginOTP",
@@ -68,8 +65,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadRole",
-    description:
-      "Allows access to view details and information about existing roles.",
+    description: "Allows access to view details and information about existing roles.",
   },
   {
     name: "UpdateRole",
@@ -85,8 +81,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadPermission",
-    description:
-      "Allows access to view details and information about existing permissions.",
+    description: "Allows access to view details and information about existing permissions.",
   },
   {
     name: "UpdatePermission",
@@ -102,8 +97,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadUserAvatar",
-    description:
-      "Allows access to view details and information about user avatars.",
+    description: "Allows access to view details and information about user avatars.",
   },
   {
     name: "UpdateUserAvatar",
@@ -115,8 +109,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadSession",
-    description:
-      "Allows access to view details and information about user sessions.",
+    description: "Allows access to view details and information about user sessions.",
   },
   {
     name: "DeleteSession",
@@ -128,8 +121,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadFile",
-    description:
-      "Allows access to view details and information about existing files.",
+    description: "Allows access to view details and information about existing files.",
   },
   {
     name: "UpdateFile",
@@ -141,8 +133,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadRolePermission",
-    description:
-      "Allows access to view details and information about role permissions.",
+    description: "Allows access to view details and information about role permissions.",
   },
   {
     name: "GrantRolePermission",
@@ -150,8 +141,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadUserPermission",
-    description:
-      "Allows access to view details and information about user permissions.",
+    description: "Allows access to view details and information about user permissions.",
   },
   {
     name: "GrantUserPermission",
@@ -159,8 +149,7 @@ const permissions: Array<{ name: string; description: string }> = [
   },
   {
     name: "ReadUserRole",
-    description:
-      "Allows access to view details and information about user roles.",
+    description: "Allows access to view details and information about user roles.",
   },
   {
     name: "AssignUserRole",

@@ -1,8 +1,5 @@
 import type { AppContext } from "types";
-import type {
-  MutationResponse,
-  MutationSendEmailLoginOtpToUsersArgs,
-} from "types/graphql";
+import type { MutationResponse, MutationSendEmailLoginOtpToUsersArgs } from "types/graphql";
 
 import { EMAIL_LOGIN_OTP_PREFIX } from "@/constants/cachePrefixes";
 import { LOGIN_OTP_EXPIRES_IN } from "@/constants/limits";

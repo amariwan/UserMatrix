@@ -3,16 +3,10 @@ import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 
 import AuthenticationError from "@/utils/errors/AuthenticationError";
 
-export default function refreshToken(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export default function refreshToken(req: Request, res: Response, next: NextFunction) {
   (async () => {
-    const { t, jwtClient, prismaClient, clientId, userAgent, clientIp } =
-      req.context;
-    const { access_token: expiredAccessToken, refresh_token: oldRefreshToken } =
-      req.headers;
+    const { t, jwtClient, prismaClient, clientId, userAgent, clientIp } = req.context;
+    const { access_token: expiredAccessToken, refresh_token: oldRefreshToken } = req.headers;
 
     try {
       if (!(expiredAccessToken && oldRefreshToken)) {

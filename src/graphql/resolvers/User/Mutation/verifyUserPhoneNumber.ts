@@ -1,9 +1,6 @@
 import { UserStatus } from "@prisma/client";
 import type { AppContext } from "types";
-import type {
-  MutationResponse,
-  MutationVerifyUserPhoneNumberArgs,
-} from "types/graphql";
+import type { MutationResponse, MutationVerifyUserPhoneNumberArgs } from "types/graphql";
 
 import { VERIFY_PHONE_NUMBER_PREFIX } from "@/constants/cachePrefixes";
 import AuthenticationError from "@/utils/errors/AuthenticationError";
@@ -23,9 +20,7 @@ export default {
       const sentToken = await redisClient.get(cacheKey);
 
       if (!sentToken || sentToken !== token) {
-        throw new AuthenticationError(
-          t("mutation.verifyUserPhoneNumber.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.verifyUserPhoneNumber.errors.message"));
       }
 
       const user = await prismaClient.user.findFirst({
@@ -41,9 +36,7 @@ export default {
       });
 
       if (!user) {
-        throw new AuthenticationError(
-          t("mutation.verifyUserPhoneNumber.errors.message"),
-        );
+        throw new AuthenticationError(t("mutation.verifyUserPhoneNumber.errors.message"));
       }
 
       await prismaClient.user.update({

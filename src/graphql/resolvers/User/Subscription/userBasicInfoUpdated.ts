@@ -31,11 +31,8 @@ export default {
        * not the GraphQL operation AppContext that's passed to your resolvers.
        */
       subscribe: withFilter(
-        (
-          _parent: unknown,
-          args: SubscriptionUserBasicInfoUpdatedArgs,
-          { pubsub }: SocketContext,
-        ) => pubsub.asyncIterator([USER_UPDATED_TOPIC]),
+        (_parent: unknown, args: SubscriptionUserBasicInfoUpdatedArgs, { pubsub }: SocketContext) =>
+          pubsub.asyncIterator([USER_UPDATED_TOPIC]),
         (payload: User, variables: SubscriptionUserBasicInfoUpdatedArgs) =>
           payload.id === variables.id,
       ),

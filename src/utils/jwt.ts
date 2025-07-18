@@ -1,15 +1,8 @@
 import fs from "fs";
-import jwt, {
-  type JwtPayload,
-  type SignOptions,
-  type VerifyOptions,
-} from "jsonwebtoken";
+import jwt, { type JwtPayload, type SignOptions, type VerifyOptions } from "jsonwebtoken";
 import { nanoid } from "nanoid";
 
-import {
-  ACCESS_TOKEN_EXPIRES_IN,
-  REFRESH_TOKEN_EXPIRES_IN,
-} from "@/constants/limits";
+import { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from "@/constants/limits";
 import dayjs from "@/utils/dayjs";
 
 const testSecret = "secret";
@@ -23,14 +16,9 @@ let clientIds: string[] = [];
  * This function return a signed token that can only be used for a single client, i.e
  * Example: A token generated from an android app client won't be verified when sent for a iOS app client
  */
-function sign(
-  payload: JwtPayload & { azp?: string },
-  options: SignOptions = {},
-) {
+function sign(payload: JwtPayload & { azp?: string }, options: SignOptions = {}) {
   const privateKey =
-    process.env.NODE_ENV === "test"
-      ? testSecret
-      : fs.readFileSync("certs/private.pem");
+    process.env.NODE_ENV === "test" ? testSecret : fs.readFileSync("certs/private.pem");
 
   const token = jwt.sign(payload, privateKey, {
     algorithm: "RS256",
@@ -44,9 +32,7 @@ function sign(
 
 function signForAllClients(payload: JwtPayload, options: SignOptions = {}) {
   const privateKey =
-    process.env.NODE_ENV === "test"
-      ? testSecret
-      : fs.readFileSync("certs/private.pem");
+    process.env.NODE_ENV === "test" ? testSecret : fs.readFileSync("certs/private.pem");
   const token = jwt.sign(payload, privateKey, {
     algorithm: "RS256",
     issuer: process.env.APP_DOMAIN,
@@ -59,9 +45,7 @@ function signForAllClients(payload: JwtPayload, options: SignOptions = {}) {
 
 function verifyForAllClients(token: string, options: VerifyOptions = {}) {
   const publicKey =
-    process.env.NODE_ENV === "test"
-      ? testSecret
-      : fs.readFileSync("certs/public.pem");
+    process.env.NODE_ENV === "test" ? testSecret : fs.readFileSync("certs/public.pem");
 
   const verified = jwt.verify(token, publicKey, {
     issuer: process.env.APP_DOMAIN,
@@ -74,9 +58,7 @@ function verifyForAllClients(token: string, options: VerifyOptions = {}) {
 
 function verify(token: string, options: VerifyOptions = {}) {
   const publicKey =
-    process.env.NODE_ENV === "test"
-      ? testSecret
-      : fs.readFileSync("certs/public.pem");
+    process.env.NODE_ENV === "test" ? testSecret : fs.readFileSync("certs/public.pem");
 
   const verified = jwt.verify(token, publicKey, {
     issuer: process.env.APP_DOMAIN,

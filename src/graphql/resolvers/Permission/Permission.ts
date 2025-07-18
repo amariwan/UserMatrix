@@ -14,11 +14,7 @@ export default {
         })
         .creator();
     },
-    async userPermissions(
-      permission: Permission,
-      _args: never,
-      context: AppContext,
-    ) {
+    async userPermissions(permission: Permission, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.permission
@@ -29,11 +25,7 @@ export default {
         })
         .userPermissions();
     },
-    async rolePermissions(
-      permission: Permission,
-      _args: never,
-      context: AppContext,
-    ) {
+    async rolePermissions(permission: Permission, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.permission

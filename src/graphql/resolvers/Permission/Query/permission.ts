@@ -26,11 +26,7 @@ export default {
 
       return permission;
     },
-    async permissions(
-      _parent: unknown,
-      { limit }: QueryPermissionsArgs,
-      context: AppContext,
-    ) {
+    async permissions(_parent: unknown, { limit }: QueryPermissionsArgs, context: AppContext) {
       const { prismaClient } = context;
 
       const items = await prismaClient.permission.findMany({

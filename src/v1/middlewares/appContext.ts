@@ -42,10 +42,7 @@ const appContext = (req: Request, res: Response, next: NextFunction) => {
     try {
       const { authorization } = headers;
 
-      if (
-        process.env.NODE_ENV === "production" &&
-        !jwtClient.clientIds.includes(clientId)
-      ) {
+      if (process.env.NODE_ENV === "production" && !jwtClient.clientIds.includes(clientId)) {
         throw new ForbiddenError(t("UNSUPPORTED_CLIENT", { ns: "error" }));
       }
 
@@ -66,14 +63,10 @@ const appContext = (req: Request, res: Response, next: NextFunction) => {
             }
             Sentry.setUser({ id: currentUser.id });
 
-            const session = currentUser.sessions.find(
-              (session) => session.id === payload.azp,
-            );
+            const session = currentUser.sessions.find((session) => session.id === payload.azp);
 
             if (!session) {
-              throw new AuthenticationError(
-                t("INVALID_AUTH_TOKEN", { ns: "error" }),
-              );
+              throw new AuthenticationError(t("INVALID_AUTH_TOKEN", { ns: "error" }));
             }
             req.context.currentUser = currentUser;
           }

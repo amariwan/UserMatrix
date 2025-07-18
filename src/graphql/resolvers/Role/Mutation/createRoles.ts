@@ -4,10 +4,7 @@ import type { AppContext } from "types";
 import type { MutationCreateRolesArgs } from "types/graphql";
 import { z, ZodError } from "zod";
 
-import {
-  ROLE_DESCRIPTION_MAX_LENGTH,
-  ROLE_NAME_MAX_LENGTH,
-} from "@/constants/limits";
+import { ROLE_DESCRIPTION_MAX_LENGTH, ROLE_NAME_MAX_LENGTH } from "@/constants/limits";
 import QueryError from "@/utils/errors/QueryError";
 import ValidationError from "@/utils/errors/ValidationError";
 
@@ -69,12 +66,10 @@ export default {
         }
 
         if (e instanceof ZodError) {
-          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(
-            ([name, messages]) => ({
-              name,
-              messages,
-            }),
-          );
+          const fieldErrors = Object.entries(e.formErrors.fieldErrors).map(([name, messages]) => ({
+            name,
+            messages,
+          }));
 
           throw new ValidationError(t("mutation.createRoles.errors.message"), {
             originalError: e,

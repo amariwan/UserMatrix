@@ -1,9 +1,6 @@
 type File
   @auth(
-    rules: [
-      { allow: roles, roles: ["Admin"] }
-      { allow: permissions, permissions: ["ReadFile"] }
-    ]
+    rules: [{ allow: roles, roles: ["Admin"] }, { allow: permissions, permissions: ["ReadFile"] }]
   ) {
   id: ID!
   name: String
@@ -18,18 +15,12 @@ type File
 type Query {
   file(key: ID!, bucket: ID!): File!
     @auth(
-      rules: [
-        { allow: roles, roles: ["Admin"] }
-        { allow: permissions, permissions: ["ReadFile"] }
-      ]
+      rules: [{ allow: roles, roles: ["Admin"] }, { allow: permissions, permissions: ["ReadFile"] }]
     )
 
   files(limit: Int): FilesList!
     @auth(
-      rules: [
-        { allow: roles, roles: ["Admin"] }
-        { allow: permissions, permissions: ["ReadFile"] }
-      ]
+      rules: [{ allow: roles, roles: ["Admin"] }, { allow: permissions, permissions: ["ReadFile"] }]
     )
 }
 

@@ -56,11 +56,7 @@ export default {
         })
         .rolesCreatedByUser();
     },
-    async permissionsCreatedByUser(
-      user: User,
-      _args: never,
-      context: AppContext,
-    ) {
+    async permissionsCreatedByUser(user: User, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.user
@@ -93,11 +89,7 @@ export default {
         })
         .rolesAssignedByUser();
     },
-    async permissionsAssignedToUser(
-      user: User,
-      _args: never,
-      context: AppContext,
-    ) {
+    async permissionsAssignedToUser(user: User, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.user
@@ -108,11 +100,7 @@ export default {
         })
         .permissionsAssignedToUser();
     },
-    async permissionsAssignedByUser(
-      user: User,
-      _args: never,
-      context: AppContext,
-    ) {
+    async permissionsAssignedByUser(user: User, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.user
@@ -123,11 +111,7 @@ export default {
         })
         .permissionsAssignedByUser();
     },
-    async rolePermissionsAssignedByUser(
-      user: User,
-      _args: never,
-      context: AppContext,
-    ) {
+    async rolePermissionsAssignedByUser(user: User, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.user

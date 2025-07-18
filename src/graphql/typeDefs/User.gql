@@ -153,18 +153,12 @@ type Query {
 
   user(id: ID!): User!
     @auth(
-      rules: [
-        { allow: roles, roles: ["Admin"] }
-        { allow: permissions, permissions: ["ReadUser"] }
-      ]
+      rules: [{ allow: roles, roles: ["Admin"] }, { allow: permissions, permissions: ["ReadUser"] }]
     )
 
   users(limit: Int): UsersList!
     @auth(
-      rules: [
-        { allow: roles, roles: ["Admin"] }
-        { allow: permissions, permissions: ["ReadUser"] }
-      ]
+      rules: [{ allow: roles, roles: ["Admin"] }, { allow: permissions, permissions: ["ReadUser"] }]
     )
 }
 
@@ -183,9 +177,7 @@ type Mutation {
   requestSMSLoginOTP(phoneNumber: PhoneNumber!): MutationResponse!
   loginWithSMSOTP(input: SMSOTPLoginInput!): AuthResponse!
 
-  requestUserPhoneNumberVerification(
-    phoneNumber: PhoneNumber!
-  ): MutationResponse!
+  requestUserPhoneNumberVerification(phoneNumber: PhoneNumber!): MutationResponse!
   verifyUserPhoneNumber(input: VerifyPhoneNumberInput!): MutationResponse!
 
   requestUserEmailVerification(email: EmailAddress!): MutationResponse!
@@ -206,8 +198,7 @@ type Mutation {
     @auth(rules: [{ allow: status, status: [Provisioned, Active] }])
   deleteUserAccount(input: DeleteAccountInput!): MutationResponse!
 
-  rotateKeys: MutationResponse!
-    @auth(rules: [{ allow: roles, roles: ["Admin"] }])
+  rotateKeys: MutationResponse! @auth(rules: [{ allow: roles, roles: ["Admin"] }])
 
   createUsers(inputs: [CreateUserInput!]!): [User]!
     @auth(
@@ -233,9 +224,7 @@ type Mutation {
       ]
     )
 
-  sendVerificationEmailToUsers(
-    inputs: [SendVerificationEmailInput!]!
-  ): MutationResponse!
+  sendVerificationEmailToUsers(inputs: [SendVerificationEmailInput!]!): MutationResponse!
     @auth(
       rules: [
         { allow: roles, roles: ["Admin"] }
@@ -253,9 +242,7 @@ type Mutation {
       ]
     )
 
-  sendPasswordResetEmailToUsers(
-    inputs: [SendPasswordResetEmailInput!]!
-  ): MutationResponse!
+  sendPasswordResetEmailToUsers(inputs: [SendPasswordResetEmailInput!]!): MutationResponse!
     @auth(
       rules: [
         { allow: roles, roles: ["Admin"] }
@@ -263,9 +250,7 @@ type Mutation {
       ]
     )
 
-  sendEmailLoginOTPToUsers(
-    inputs: [SendEmailLoginOTPInput!]!
-  ): MutationResponse!
+  sendEmailLoginOTPToUsers(inputs: [SendEmailLoginOTPInput!]!): MutationResponse!
     @auth(
       rules: [
         { allow: roles, roles: ["Admin"] }

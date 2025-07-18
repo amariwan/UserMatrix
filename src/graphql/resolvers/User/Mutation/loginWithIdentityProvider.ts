@@ -1,10 +1,7 @@
 import { UserStatus } from "@prisma/client";
 import { nanoid } from "nanoid";
 import type { AppContext } from "types";
-import type {
-  AuthResponse,
-  MutationLoginWithIdentityProviderArgs,
-} from "types/graphql";
+import type { AuthResponse, MutationLoginWithIdentityProviderArgs } from "types/graphql";
 
 import { WELCOME_TEMPLATE } from "@/constants/templates";
 import AuthenticationError from "@/utils/errors/AuthenticationError";
@@ -18,16 +15,8 @@ export default {
       { input }: MutationLoginWithIdentityProviderArgs,
       context: AppContext,
     ): Promise<AuthResponse> {
-      const {
-        t,
-        clientId,
-        clientIp,
-        language,
-        userAgent,
-        jwtClient,
-        emailClient,
-        prismaClient,
-      } = context;
+      const { t, clientId, clientIp, language, userAgent, jwtClient, emailClient, prismaClient } =
+        context;
       const { provider, token } = input;
 
       let userPayload;
@@ -40,14 +29,7 @@ export default {
         throw new AuthenticationError(t("INVALID_AUTH_TOKEN", { ns: "error" }));
       }
 
-      const {
-        email,
-        firstName,
-        lastName,
-        locale,
-        socialPictureUrl,
-        isEmailVerified,
-      } = userPayload;
+      const { email, firstName, lastName, locale, socialPictureUrl, isEmailVerified } = userPayload;
 
       let user = await prismaClient.user.findFirst({
         where: {
@@ -62,9 +44,7 @@ export default {
       ];
 
       if (user && !allowList.includes(user.status)) {
-        throw new ForbiddenError(
-          t("mutation.login.errors.unauthorized", { context: user.status }),
-        );
+        throw new ForbiddenError(t("mutation.login.errors.unauthorized", { context: user.status }));
       }
 
       let isNewUser = true;
@@ -80,9 +60,7 @@ export default {
             socialPictureUrl,
             isEmailVerified,
             password: nanoid(),
-            status: isEmailVerified
-              ? UserStatus.Active
-              : UserStatus.Provisioned,
+            status: isEmailVerified ? UserStatus.Active : UserStatus.Provisioned,
           },
         });
       } else if (user.status === UserStatus.Staged) {
@@ -97,9 +75,7 @@ export default {
             language: locale,
             socialPictureUrl,
             isEmailVerified,
-            status: isEmailVerified
-              ? UserStatus.Active
-              : UserStatus.Provisioned,
+            status: isEmailVerified ? UserStatus.Active : UserStatus.Provisioned,
           },
         });
       } else {
@@ -113,7 +89,7 @@ export default {
             isEmailVerified: user.isEmailVerified ?? !!isEmailVerified,
             socialPictureUrl,
             status:
-              user.isEmailVerified ?? !!isEmailVerified
+              (user.isEmailVerified ?? !!isEmailVerified)
                 ? UserStatus.Active
                 : UserStatus.Provisioned,
           },
@@ -154,10 +130,9 @@ export default {
 
       return {
         success: true,
-        message: t(
-          isNewUser ? "mutation.login.welcome" : "mutation.login.welcomeBack",
-          { name: user.firstName },
-        ),
+        message: t(isNewUser ? "mutation.login.welcome" : "mutation.login.welcomeBack", {
+          name: user.firstName,
+        }),
         accessToken,
         refreshToken,
       };

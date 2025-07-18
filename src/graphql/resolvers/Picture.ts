@@ -14,11 +14,7 @@ export default {
     thumbnail({ key, bucket }: File, { edits }: PictureThumbnailArgs) {
       return getImageUrl({ edits, key, bucket });
     },
-    async downloadUrl(
-      { key, bucket }: File,
-      _args: never,
-      context: AppContext,
-    ) {
+    async downloadUrl({ key, bucket }: File, _args: never, context: AppContext) {
       const { storage } = context;
       return await storage.getSignedDownloadUrl(
         bucket,

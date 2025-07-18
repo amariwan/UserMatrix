@@ -3,11 +3,7 @@ import type { AppContext } from "types";
 
 export default {
   UserPermission: {
-    async permission(
-      userPermission: UserPermission,
-      _args: never,
-      context: AppContext,
-    ) {
+    async permission(userPermission: UserPermission, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.userPermission
@@ -18,11 +14,7 @@ export default {
         })
         .permission();
     },
-    async assignee(
-      userPermission: UserPermission,
-      _args: never,
-      context: AppContext,
-    ) {
+    async assignee(userPermission: UserPermission, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.userPermission
@@ -33,11 +25,7 @@ export default {
         })
         .assignee();
     },
-    async assignor(
-      userPermission: UserPermission,
-      _args: never,
-      context: AppContext,
-    ) {
+    async assignor(userPermission: UserPermission, _args: never, context: AppContext) {
       const { prismaClient } = context;
 
       return await prismaClient.userPermission

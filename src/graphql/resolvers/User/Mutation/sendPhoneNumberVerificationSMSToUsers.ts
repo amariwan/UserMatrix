@@ -37,9 +37,7 @@ export default {
 
           await redisClient.setex(
             cacheKey,
-            dayjs
-              .duration(...PHONE_NUMBER_VERIFICATION_TOKEN_EXPIRES_IN)
-              .asSeconds(),
+            dayjs.duration(...PHONE_NUMBER_VERIFICATION_TOKEN_EXPIRES_IN).asSeconds(),
             token,
           );
 

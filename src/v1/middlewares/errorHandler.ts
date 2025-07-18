@@ -4,7 +4,7 @@ import { GraphQLError } from "graphql";
 import AuthenticationError from "@/utils/errors/AuthenticationError";
 import ForbiddenError from "@/utils/errors/ForbiddenError";
 
-const errorHandler: ErrorRequestHandler = (error, req: Request, res, next) => {
+const errorHandler: ErrorRequestHandler = (error, req: Request, res, _next) => {
   const { t, log } = req.context;
 
   if (error instanceof AuthenticationError) {
