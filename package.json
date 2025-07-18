@@ -1,5 +1,5 @@
 {
-  "name": "UserMatrix",
+  "name": "user-matrix",
   "version": "1.0.1",
   "description": "user managemnet api server template",
   "main": "build/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "transpile": "babel src -d build --copy-files --extensions .ts",
     "clean": "rimraf build",
-    "build": "yarn clean && yarn transpile",
+    "build": "pnpm clean && pnpm transpile",
     "start": "node build",
     "dev": "nodemon --exec babel-node src --extensions .ts",
     "test": "jest --runInBand",
@@ -22,7 +22,7 @@
     "docker:start": "docker compose up",
     "docker:down": "docker compose down",
     "docker:clean": "docker system prune -f",
-    "docker:stop": "yarn docker:down && yarn docker:clean",
+    "docker:stop": "pnpm docker:down && pnpm docker:clean",
     "sh": "docker exec -it api sh",
     "codegen": "graphql-codegen",
     "init:dev": "babel-node src/cli --extensions .ts",
@@ -126,6 +126,6 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
-    "**/*.ts": "yarn lint"
+    "**/*.ts": "pnpm lint"
   }
 }
