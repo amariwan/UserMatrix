@@ -58,7 +58,7 @@
     "@graphql-tools/utils": "^10.9.0",
     "@inquirer/password": "^4.0.16",
     "@inquirer/prompts": "^7.6.0",
-    "@prisma/client": "^6.12.0",
+    "@prisma/client": "6.12.0",
     "@sentry/node": "^9.40.0",
     "@sentry/profiling-node": "^9.40.0",
     "@types/request-ip": "^0.0.41",
