@@ -2,34 +2,36 @@
  * @jest-config-loader ts-node
  */
 /** @type {import('jest').Config} */
-import type {Config} from 'jest';
+import type { Config } from "jest";
 
 const config: Config = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: "node",
 
-  roots: ['<rootDir>/src', '<rootDir>/test'],
+  roots: ["<rootDir>/src", "<rootDir>/test"],
 
-  moduleFileExtensions: ['js', 'ts', 'json'],
+  moduleFileExtensions: ["js", "ts", "json"],
 
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^test/(.*)$": "<rootDir>/test/$1",
+    "^types/(.*)$": "<rootDir>/types/$1",
+    "^assets/(.*)$": "<rootDir>/assets/$1",
   },
 
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.(ts|js)$": "babel-jest",
   },
 
   collectCoverage: true,
   collectCoverageFrom: [
-    'src/**/*.{ts,js}',
-    '!src/**/*.d.ts',
-    '!src/**/__tests__/**',
-    '!src/**/test-utils/**',
-    '!src/config/**',
+    "src/**/*.{ts,js}",
+    "!src/**/*.d.ts",
+    "!src/**/__tests__/**",
+    "!src/**/test-utils/**",
+    "!src/config/**",
   ],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['json', 'text', 'lcov'],
+  coverageDirectory: "coverage",
+  coverageReporters: ["json", "text", "lcov"],
 
   coverageThreshold: {
     global: {
@@ -41,19 +43,16 @@ const config: Config = {
   },
 
   setupFilesAfterEnv: [
-    '<rootDir>/test/helpers/ioredis-mock.ts',
-    '<rootDir>/test/helpers/teardown.ts',
+    "<rootDir>/test/helpers/ioredis-mock.ts",
+    "<rootDir>/test/helpers/teardown.ts",
   ],
 
-  testMatch: [
-    '**/test/**/*.[jt]s?(x)',
-    '**/?(*.)+(spec|test).[tj]s?(x)',
-  ],
+  testMatch: ["**/test/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
 
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/coverage/'],
+  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/coverage/"],
 
   verbose: true,
-  watchPathIgnorePatterns: ['/node_modules/', '/coverage/'],
+  watchPathIgnorePatterns: ["/node_modules/", "/coverage/"],
 };
 
 export default config;

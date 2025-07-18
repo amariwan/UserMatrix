@@ -6,9 +6,7 @@ import redisClient, { pubsub } from "@/config/redis";
 import jwtClient from "@/utils/jwt";
 import log from "@/utils/logger";
 
-export default async function createMockContext(
-  currentUser?: CurrentUser,
-): Promise<AppContext> {
+export default async function createMockContext(currentUser?: CurrentUser): Promise<AppContext> {
   return {
     log,
     pubsub,
@@ -20,11 +18,7 @@ export default async function createMockContext(
     clientId: "test",
     userAgent: "test",
     prismaClient,
-    t: jest
-      .fn()
-      .mockImplementation(
-        (key: string) => key,
-      ) as unknown as TFunction<"translation">,
+    t: jest.fn().mockImplementation((key: string) => key) as unknown as TFunction<"translation">,
     docClient: {
       putItem: jest.fn(),
       putMany: jest.fn(),
