@@ -128,10 +128,45 @@ export default [
         },
       ],
 
-      // General rules
       "no-console": "warn",
       "prefer-const": "error",
       "no-var": "error",
+    },
+  },
+  {
+    files: [
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      "test/**/*.ts",
+      "test/**/*.tsx",
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "src/**/*.spec.ts",
+      "src/**/*.spec.tsx",
+      "e2e/**/*.ts",
+    ],
+    plugins: {
+      jest: require("eslint-plugin-jest"),
+    },
+    env: {
+      jest: true,
+      node: true,
+    },
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-console": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "import/no-default-export": "off",
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-magic-numbers": "off",
     },
   },
 ];

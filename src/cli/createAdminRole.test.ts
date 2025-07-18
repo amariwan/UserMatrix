@@ -1,15 +1,15 @@
-import createAdminRole from "./createAdminRole";
+// 1. Mock-Funktionen
+const mockFindFirst = jest.fn();
+const mockCreate = jest.fn();
 
+// 2. Jest-Mocks
 jest.mock("consola", () => ({
   start: jest.fn(),
   success: jest.fn(),
 }));
-import consola from "consola";
-
-const mockFindFirst = jest.fn();
-const mockCreate = jest.fn();
 
 jest.mock("@/config/database", () => ({
+  __esModule: true, // für ESM-Imports wichtig!
   default: {
     role: {
       findFirst: mockFindFirst,
@@ -18,6 +18,11 @@ jest.mock("@/config/database", () => ({
   },
 }));
 
+// 3. Jetzt erst die echten Imports (NACH dem Mock)
+import consola from "consola";
+import createAdminRole from "./createAdminRole";
+
+// 4. Tests wie gehabt
 describe("createAdminRole", () => {
   beforeEach(() => {
     jest.clearAllMocks();

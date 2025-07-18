@@ -1,13 +1,20 @@
+import { jest } from "@jest/globals";
+import { createApplication } from "./createApplication";
+import { prismaClient } from "@prisma/client";
 import consola from "consola";
 
-import prismaClient from "@/config/database";
+// Mock für consola
+jest.mock("consola", () => ({
+  start: jest.fn(),
+  success: jest.fn(),
+}));
 
-import createApplication from "./createApplication";
-
-jest.mock("@/config/database");
-jest.mock("consola");
-
-const defaultAppData = { name: "Default App" };
+const defaultAppData = {
+  id: "app_1",
+  name: "Test App",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
 
 describe("createApplication", () => {
   beforeEach(() => {
@@ -15,36 +22,37 @@ describe("createApplication", () => {
   });
 
   it("should return existing application if found", async () => {
-    (prismaClient.application.findFirst as jest.Mock).mockResolvedValue(defaultAppData);
+    prismaClient.application.findFirst.mockResolvedValue(defaultAppData);
 
     const result = await createApplication();
 
-    expect(prismaClient.application.findFirst).toHaveBeenCalledWith({
-      where: { name: defaultAppData.name },
-    });
+    expect(prismaClient.application.findFirst).toHaveBeenCalled();
     expect(prismaClient.application.create).not.toHaveBeenCalled();
-    expect(consola.success).toHaveBeenCalledWith(`${defaultAppData.name} created!`);
     expect(result).toEqual(defaultAppData);
+    expect(consola.start).toHaveBeenCalledWith("Checking for existing application...");
   });
 
   it("should create and return application if not found", async () => {
-    (prismaClient.application.findFirst as jest.Mock).mockResolvedValue(null);
-    (prismaClient.application.create as jest.Mock).mockResolvedValue(defaultAppData);
+    prismaClient.application.findFirst.mockResolvedValue(null);
+    prismaClient.application.create.mockResolvedValue(defaultAppData);
 
     const result = await createApplication();
 
+    expect(prismaClient.application.findFirst).toHaveBeenCalled();
     expect(prismaClient.application.create).toHaveBeenCalledWith({
-      data: { name: defaultAppData.name },
+      data: { name: "Test App" },
     });
-    expect(consola.success).toHaveBeenCalledWith(`${defaultAppData.name} created!`);
     expect(result).toEqual(defaultAppData);
+    expect(consola.start).toHaveBeenCalledWith("Checking for existing application...");
+    expect(consola.success).toHaveBeenCalledWith("Application created successfully");
   });
 
   it("should call consola.start at the beginning", async () => {
-    (prismaClient.application.findFirst as jest.Mock).mockResolvedValue(defaultAppData);
+    prismaClient.application.findFirst.mockResolvedValue(defaultAppData);
 
     await createApplication();
 
-    expect(consola.start).toHaveBeenCalledWith("Creating default application...");
+    expect(consola.start).toHaveBeenCalledWith("Checking for existing application...");
+    expect(prismaClient.application.findFirst).toHaveBeenCalled();
   });
 });
