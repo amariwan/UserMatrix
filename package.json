@@ -6,9 +6,11 @@
   "repository": "git@github.com:amariwan/UserMatrix.git",
   "author": "amariwan",
   "license": "MIT",
+  "type": "module",
+  "private": true,
   "scripts": {
     "transpile": "babel src -d build --copy-files --extensions .ts",
-    "clean": "rimraf build",
+    "clean": "rm -rf build",
     "build": "pnpm clean && pnpm transpile",
     "start": "node build",
     "dev": "nodemon --exec babel-node src --extensions .ts",
@@ -104,6 +106,7 @@
     "@types/node": "^24.0.14",
     "@types/numeral": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "babel-jest": "^30.0.4",
     "babel-plugin-module-resolver": "^5.0.2",
     "dotenv-vault": "^1.27.0",
@@ -121,7 +124,6 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "prettier-plugin-prisma": "^5.0.0",
-    "rimraf": "^6.0.1",
     "typescript": "^5.8.3"
   },
   "lint-staged": {

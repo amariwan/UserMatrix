@@ -3,10 +3,7 @@ import { rateLimit } from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
 
 import client from "@/config/redis";
-import {
-  RATE_LIMITER_MAX_REQUESTS_PER_WINDOW,
-  RATE_LIMITER_WINDOW_MS,
-} from "@/constants/limits";
+import { RATE_LIMITER_MAX_REQUESTS_PER_WINDOW, RATE_LIMITER_WINDOW_MS } from "@/constants/limits";
 
 const rateLimiter = rateLimit({
   windowMs: RATE_LIMITER_WINDOW_MS,
