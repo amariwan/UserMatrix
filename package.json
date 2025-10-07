@@ -86,7 +86,7 @@
     "multer": "2.0.2",
     "multer-s3": "^3.0.1",
     "nanoid": "^5.1.5",
-    "nodemailer": "^7.0.5",
+    "nodemailer": "^7.0.7",
     "numeral": "^2.0.6",
     "pino": "^9.7.0",
     "pino-http": "^10.5.0",
